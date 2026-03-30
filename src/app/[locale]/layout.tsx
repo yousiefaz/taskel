@@ -1,12 +1,17 @@
 import { Rubik } from "next/font/google";
 import "../globals.css";
 
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
 import { NextIntlClientProvider } from "next-intl";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { notFound } from "next/navigation";
+
 import { routing } from "@/i18n/routing";
 import { DirectionProvider } from "@/components/ui/direction";
+import type { Locale } from "@/types/i18n.types";
 
 const rubik = Rubik({
   subsets: ["arabic", "latin"],
@@ -14,11 +19,20 @@ const rubik = Rubik({
   display: "swap",
 });
 
-export function generateStaticParams() {
+interface LocaleLayoutProps {
+  children: ReactNode;
+  params: Promise<{ locale: Locale }>;
+}
+
+export function generateStaticParams(): { locale: Locale }[] {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
   const { locale } = await params;
 
   return {
@@ -28,7 +42,10 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function LocaleLayout({ children, params }) {
+export default async function LocaleLayout({
+  children,
+  params,
+}: LocaleLayoutProps) {
   const { locale } = await params;
 
   if (!routing.locales.includes(locale)) {

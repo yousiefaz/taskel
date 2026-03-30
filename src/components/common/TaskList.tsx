@@ -7,28 +7,27 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-
 import { Tabs, TabsContent } from "../ui/tabs";
 import { ScrollArea } from "../ui/scroll-area";
+import { useTranslations } from "next-intl";
 
 import TaskItem from "./TaskItem";
 import TaskFilter from "./TaskFilter";
 import TaskForm from "./TaskForm";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 import { useTasks } from "@/hooks/useTasks";
-import { useTranslations } from "next-intl";
-import LanguageSwitcher from "./LanguageSwitcher";
+import type { Task } from "@/types/task.types";
 
 export default function TaskList() {
   const t = useTranslations("tasks");
-
   const { tasks } = useTasks();
 
   const activeTasks = tasks.filter((task) => task.status === "active");
   const completedTasks = tasks.filter((task) => task.status === "completed");
 
-  const renderTasks = (tasks) => {
-    if (tasks.length === 0) {
+  const renderTasks = (taskList: Task[]) => {
+    if (taskList.length === 0) {
       return (
         <p className="flex justify-center py-6 text-center text-base text-muted-foreground md:text-xl">
           {t("noTasks")}
@@ -38,7 +37,7 @@ export default function TaskList() {
 
     return (
       <div className="flex flex-col gap-2">
-        {tasks.map((task) => (
+        {taskList.map((task) => (
           <TaskItem key={task.id} task={task} />
         ))}
       </div>
@@ -49,6 +48,7 @@ export default function TaskList() {
     <Card className="mx-auto w-full max-w-5xl rounded-3xl">
       <CardHeader className="grid grid-cols-1 gap-4 md:grid-cols-3 md:items-center">
         <div className="hidden md:block" />
+
         <div>
           <CardTitle className="text-center text-3xl font-bold md:text-5xl">
             {t("title")}
@@ -64,7 +64,7 @@ export default function TaskList() {
         <Tabs defaultValue="all" className="w-full">
           <TaskFilter />
 
-          <ScrollArea className="h-87 w-full md:h-106" direction="rtl">
+          <ScrollArea className="h-87 w-full md:h-106">
             <TabsContent value="all" className="px-4">
               {renderTasks(tasks)}
             </TabsContent>

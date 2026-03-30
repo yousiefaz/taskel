@@ -12,43 +12,43 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import type { Locale } from "@/types/i18n.types";
+
 export default function LanguageSwitcher() {
   const languageT = useTranslations("language");
 
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const pathname = usePathname();
   const router = useRouter();
 
-  const changeLanguage = (nextLocale) => {
+  const changeLanguage = (nextLocale: Locale) => {
     router.replace(pathname, { locale: nextLocale });
   };
 
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Languages className="size-4" />
-            <span>{languageT("switch")}</span>
-          </Button>
-        </DropdownMenuTrigger>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="gap-2">
+          <Languages className="size-4" />
+          <span>{languageT("switch")}</span>
+        </Button>
+      </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem
-            disabled={locale === "en"}
-            onClick={() => changeLanguage("en")}
-          >
-            {languageT("en")}
-          </DropdownMenuItem>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem
+          disabled={locale === "en"}
+          onClick={() => changeLanguage("en")}
+        >
+          {languageT("en")}
+        </DropdownMenuItem>
 
-          <DropdownMenuItem
-            disabled={locale === "ar"}
-            onClick={() => changeLanguage("ar")}
-          >
-            {languageT("ar")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+        <DropdownMenuItem
+          disabled={locale === "ar"}
+          onClick={() => changeLanguage("ar")}
+        >
+          {languageT("ar")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

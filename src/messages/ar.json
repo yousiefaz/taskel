@@ -1,0 +1,58 @@
+{
+  "tasks": {
+    "title": "تاسكل",
+    "noTasks": "لا توجد مهام حالياً"
+  },
+  "taskStatus": {
+    "active": "قيد التنفيذ",
+    "completed": "مكتملة"
+  },
+
+  "taskForm": {
+    "triggerButton": "إضافة مهمة جديدة",
+    "dialogTitle": "إضافة مهمة جديدة",
+    "dialogDescription": "قم بملء بيانات المهمة ثم اضغط اضافة المهمة.",
+    "TitleLabel": "عنوان المهمة",
+    "titlePlaceholder": "اكتبل عنوان المهمة...",
+    "DescriptionLabel": "الوصف",
+    "descriptionPlaceholder": "اكتب وصف المهمة...",
+    "cancelBtn": "إلغاء",
+    "saveBtnTooltip": "ادخل البيانات الازمة",
+    "saveBtn": "إضافة المهمة"
+  },
+  "taskFilter": {
+    "all": "الكل",
+    "active": "قيد التنفيذ",
+    "completed": "مكتملة"
+  },
+  "taskActions": {
+    "toggleStatusBtn": "تغيير الحالة",
+    "editBtn": "تعديل المهمة",
+    "removeBtn": "حذف المهمة",
+
+    "dialogTitle": "تعديل المهمة",
+    "dialogDescription": "قم بتعديل بيانات المهمة ثم اضغط حفظ التعديلات.",
+    "TitleLabel": "عنوان المهمة",
+    "titlePlaceholder": "اكتبل عنوان المهمة...",
+    "DescriptionLabel": "الوصف",
+    "descriptionPlaceholder": "اكتب وصف المهمة...",
+    "cancelBtn": "إلغاء",
+    "saveBtnTooltip": "ادخل البيانات الازمة",
+    "saveBtn": "حفظ التعديلات",
+
+    "alertDialogTitle": "حذف المهمة",
+    "alertDialogDescription": "سيتم حذف هذه المهمة نهائيًا ولا يمكن استرجاعها بعد ذلك.",
+    "deleteBtn": "حذف"
+  },
+  "toasts": {
+    "taskAdded": "تمت إضافة المهمة بنجاح",
+    "taskToggled": "تم تحديث الحالة بنجاح",
+    "taskEdited": "تم تعديل المهمة بنجاح",
+    "taskDeleted": "تم حذف المهمة بنجاح"
+  },
+  "language": {
+    "switch": "تغيير اللغة",
+    "ar": "العربية",
+    "en": "English"
+  }
+}

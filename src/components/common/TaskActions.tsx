@@ -1,5 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import { ArrowRightLeft, CircleCheck, Edit, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +17,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
 import {
   Dialog,
   DialogClose,
@@ -23,29 +27,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import { ArrowRightLeft, CircleCheck, Edit, Trash2 } from "lucide-react";
-
-import { Button } from "../ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { toast } from "sonner";
 
-import { useState } from "react";
 import { useTasks } from "@/hooks/useTasks";
-import { useTranslations } from "next-intl";
+import type { TaskActionsProps } from "@/types/task.types";
 
-export default function TaskActions({ task }) {
+export default function TaskActions({ task }: TaskActionsProps) {
   const actionsT = useTranslations("taskActions");
   const toastT = useTranslations("toasts");
 
   const { id, title, description, status } = task;
 
-  const [editTitle, setEditTitle] = useState(title);
-  const [editDescription, setEditDescription] = useState(description);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editTitle, setEditTitle] = useState<string>(title);
+  const [editDescription, setEditDescription] = useState<string>(description);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
   const { toggleTask, updateTask, deleteTask } = useTasks();
 
@@ -53,9 +52,10 @@ export default function TaskActions({ task }) {
 
   const handleToggleTaskStatus = () => {
     toggleTask(id);
+
     setTimeout(() => {
       toast(toastT("taskToggled"));
-    }, 500);
+    }, 250);
   };
 
   const handleEditClick = () => {
@@ -71,7 +71,7 @@ export default function TaskActions({ task }) {
 
     setTimeout(() => {
       toast(toastT("taskEdited"));
-    }, 500);
+    }, 250);
   };
 
   const handleDeleteClick = () => {
@@ -79,12 +79,12 @@ export default function TaskActions({ task }) {
 
     setTimeout(() => {
       toast(toastT("taskDeleted"));
-    }, 500);
+    }, 250);
   };
 
   const iconButtonProps = {
-    variant: "outline",
-    size: "icon",
+    variant: "outline" as const,
+    size: "icon" as const,
     className: "size-9 rounded-full md:size-10",
   };
 
@@ -111,7 +111,7 @@ export default function TaskActions({ task }) {
 
       <Dialog
         open={isEditDialogOpen}
-        onOpenChange={(open) => {
+        onOpenChange={(open: boolean) => {
           setIsEditDialogOpen(open);
 
           if (open) {

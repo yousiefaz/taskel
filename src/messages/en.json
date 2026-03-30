@@ -1,0 +1,62 @@
+{
+  "tasks": {
+    "title": "Taskel",
+    "noTasks": "No tasks available"
+  },
+  "taskStatus": {
+    "active": "Active",
+    "completed": "Completed"
+  },
+
+  "taskForm": {
+    "triggerButton": "Add New Task",
+    "dialogTitle": "Add New Task",
+    "dialogDescription": "Fill in the task details and click add task.",
+    "TitleLabel": "Task Title",
+    "titlePlaceholder": "Enter task title...",
+    "DescriptionLabel": "Description",
+    "descriptionPlaceholder": "Enter task description...",
+    "cancelBtn": "Cancel",
+    "saveBtnTooltip": "Enter required data",
+    "saveBtn": "Add Task"
+  },
+
+  "taskFilter": {
+    "all": "All",
+    "active": "Active",
+    "completed": "Completed"
+  },
+
+  "taskActions": {
+    "toggleStatusBtn": "Toggle status",
+    "editBtn": "Edit task",
+    "removeBtn": "Remove task",
+
+    "dialogTitle": "Edit Task",
+    "dialogDescription": "Update the task details and click save changes.",
+    "TitleLabel": "Task Title",
+    "titlePlaceholder": "Enter task title...",
+    "DescriptionLabel": "Description",
+    "descriptionPlaceholder": "Enter task description...",
+    "cancelBtn": "Cancel",
+    "saveBtnTooltip": "Enter required data",
+    "saveBtn": "Save Changes",
+
+    "alertDialogTitle": "Delete Task",
+    "alertDialogDescription": "This task will be permanently deleted and cannot be recovered.",
+    "deleteBtn": "Delete"
+  },
+
+  "toasts": {
+    "taskAdded": "Task added successfully",
+    "taskToggled": "Status updated successfully",
+    "taskEdited": "Task updated successfully",
+    "taskDeleted": "Task deleted successfully"
+  },
+
+  "language": {
+    "switch": "Switch Language",
+    "ar": "Arabic",
+    "en": "English"
+  }
+}
