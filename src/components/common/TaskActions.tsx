@@ -90,6 +90,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
   return (
     <div className="flex items-center gap-2 md:gap-3">
+      {/* Toggle task status */}
       <Tooltip>
         <TooltipTrigger asChild>
           <span className="w-full sm:w-auto">
@@ -108,7 +109,9 @@ export default function TaskActions({ task }: TaskActionsProps) {
         </TooltipTrigger>
         <TooltipContent>{actionsT("toggleStatusBtn")}</TooltipContent>
       </Tooltip>
+      {/* Toggle task status */}
 
+      {/* Edit task */}
       <Dialog
         open={isEditDialogOpen}
         onOpenChange={(open: boolean) => {
@@ -192,7 +195,9 @@ export default function TaskActions({ task }: TaskActionsProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {/* Edit task */}
 
+      {/* Delete task */}
       <AlertDialog>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -235,6 +240,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {/* Delete task */}
     </div>
   );
 }

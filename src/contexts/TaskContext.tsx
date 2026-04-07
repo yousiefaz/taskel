@@ -2,7 +2,7 @@
 
 import {
   createContext,
-  useEffect,
+  // useEffect,
   useState,
   type Dispatch,
   type ReactNode,
@@ -26,18 +26,22 @@ export const TaskContext = createContext<TaskContextType | undefined>(
 );
 
 export function TaskProvider({ children }: TaskProviderProps) {
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    if (typeof window !== "undefined") {
-      const savedTasks = localStorage.getItem("tasks");
-      return savedTasks ? (JSON.parse(savedTasks) as Task[]) : TASKS;
-    }
+  const [tasks, setTasks] = useState<Task[]>(TASKS);
 
-    return TASKS;
-  });
+  // useEffect(() => {
+  //   const fetchTasks = async () => {
+  //     const savedTasks = localStorage.getItem("tasks");
+  //     if (savedTasks) {
+  //       setTasks(JSON.parse(savedTasks) as Task[]);
+  //     }
+  //   };
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  //   fetchTasks();
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem("tasks", JSON.stringify(tasks));
+  // }, [tasks]);
 
   return (
     <TaskContext.Provider value={{ tasks, setTasks }}>

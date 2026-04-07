@@ -45,6 +45,8 @@ export default function TaskForm() {
     setDescription("");
     setIsAddDialogOpen(false);
 
+    localStorage.setItem("tasks", JSON.stringify([]));
+
     toast.success(toastT("taskAdded"), { position: "top-center" });
   };
 
