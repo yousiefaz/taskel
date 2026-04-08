@@ -44,7 +44,9 @@ export function useTasks() {
       status: "active" as const,
     };
 
-    setTasks((prev) => [...prev, newTask]);
+    const updatedTasks = [...tasks, newTask];
+
+    setTasks(updatedTasks);
   };
 
   return {

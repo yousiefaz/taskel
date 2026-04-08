@@ -39,13 +39,13 @@ export default function TaskForm() {
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
 
-    addTask(trimmedTitle, trimmedDescription);
+    const updatedTasks = addTask(trimmedTitle, trimmedDescription);
 
     setTitle("");
     setDescription("");
     setIsAddDialogOpen(false);
 
-    localStorage.setItem("tasks", JSON.stringify([]));
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
 
     toast.success(toastT("taskAdded"), { position: "top-center" });
   };
