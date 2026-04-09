@@ -47,6 +47,8 @@ export function useTasks() {
     const updatedTasks = [...tasks, newTask];
 
     setTasks(updatedTasks);
+
+    return updatedTasks;
   };
 
   return {
