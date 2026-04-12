@@ -85,7 +85,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
   const iconButtonProps = {
     variant: "outline" as const,
     size: "icon" as const,
-    className: "size-9 rounded-full md:size-10",
+    className: "size-9 rounded-full md:size-10 cursor-pointer",
   };
 
   return (

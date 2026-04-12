@@ -50,7 +50,7 @@ export default function TaskList() {
         <div className="hidden md:block" />
 
         <div>
-          <CardTitle className="text-center text-3xl font-bold md:text-5xl">
+          <CardTitle className="text-center text-3xl font-bold md:text-5xl cursor-default">
             {t("title")}
           </CardTitle>
         </div>
