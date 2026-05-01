@@ -23,7 +23,7 @@ export default function TaskItem({ task }: TaskItemProps) {
       <CardHeader className="flex items-center justify-start gap-4">
         <Badge
           variant={status === "completed" ? "default" : "secondary"}
-          className="min-w-20"
+          className="min-w-21 text-center"
         >
           {statusT(status)}
         </Badge>

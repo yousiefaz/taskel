@@ -19,6 +19,8 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { useTasks } from "@/hooks/useTasks";
 import type { Task } from "@/types/task.types";
 
+import { AnimatePresence, motion } from "motion/react";
+
 export default function TaskList() {
   const t = useTranslations("tasks");
   const { tasks } = useTasks();
@@ -36,11 +38,21 @@ export default function TaskList() {
     }
 
     return (
-      <div className="flex flex-col gap-2">
-        {taskList.map((task) => (
-          <TaskItem key={task.id} task={task} />
-        ))}
-      </div>
+      <motion.div className="flex flex-col gap-2" layout>
+        <AnimatePresence>
+          {taskList.map((task) => (
+            <motion.div
+              key={task.id}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
+              <TaskItem task={task} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     );
   };
 
