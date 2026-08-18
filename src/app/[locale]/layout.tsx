@@ -1,6 +1,3 @@
-import { Rubik } from "next/font/google";
-import "../globals.css";
-
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
@@ -12,12 +9,6 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { DirectionProvider } from "@/components/ui/direction";
 import type { Locale } from "@/types/i18n.types";
-
-const rubik = Rubik({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
 
 interface LocaleLayoutProps {
   children: ReactNode;
@@ -56,22 +47,15 @@ export default async function LocaleLayout({
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html
-      lang={locale}
-      dir={dir}
-      className={rubik.className}
-      suppressHydrationWarning
-    >
-      <body>
-        <DirectionProvider direction={dir}>
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <TooltipProvider>
-              {children}
-              <Toaster />
-            </TooltipProvider>
-          </NextIntlClientProvider>
-        </DirectionProvider>
-      </body>
-    </html>
+    <div dir={dir}>
+      <DirectionProvider direction={dir}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <TooltipProvider>
+            {children}
+            <Toaster />
+          </TooltipProvider>
+        </NextIntlClientProvider>
+      </DirectionProvider>
+    </div>
   );
 }
