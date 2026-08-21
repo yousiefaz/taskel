@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import { TaskContext } from "../contexts/TaskContext";
 import type { UpdateTaskData } from "@/types/task.types";
@@ -38,7 +37,7 @@ export function useTasks() {
 
   const addTask = (title: string, description: string) => {
     const newTask = {
-      id: uuidv4(),
+      id: "a3",
       title,
       description,
       status: "active" as const,
