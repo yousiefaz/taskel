@@ -1,10 +1,20 @@
-import { useContext } from "react";
+"use client";
 
-import { TaskContext } from "../contexts/TaskContext";
+import { useContext, useTransition } from "react";
+
+import { TaskContext } from "@/contexts/TaskContext";
+import {
+  createTodo,
+  deleteTodo,
+  toggleTodoStatus,
+  updateTodo,
+} from "@/actions/todo.actions";
+
 import type { UpdateTaskData } from "@/types/task.types";
 
 export function useTasks() {
   const context = useContext(TaskContext);
+  const [isPending, startTransition] = useTransition();
 
   if (!context) {
     throw new Error("useTasks must be used within a TaskProvider");
@@ -13,45 +23,48 @@ export function useTasks() {
   const { tasks, setTasks } = context;
 
   const toggleTask = (id: string) => {
-    setTasks((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              status: item.status === "completed" ? "active" : "completed",
-            }
-          : item,
-      ),
-    );
+    startTransition(async () => {
+      const updatedTask = await toggleTodoStatus(id);
+
+      setTasks((prev) =>
+        prev.map((task) => (task.id === id ? updatedTask : task)),
+      );
+    });
   };
 
   const updateTask = (id: string, updatedData: UpdateTaskData) => {
-    setTasks((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, ...updatedData } : item)),
-    );
+    startTransition(async () => {
+      const updatedTask = await updateTodo(
+        id,
+        updatedData.title ?? "",
+        updatedData.description ?? "",
+      );
+
+      setTasks((prev) =>
+        prev.map((task) => (task.id === id ? updatedTask : task)),
+      );
+    });
   };
 
   const deleteTask = (id: string) => {
-    setTasks((prev) => prev.filter((item) => item.id !== id));
+    startTransition(async () => {
+      await deleteTodo(id);
+
+      setTasks((prev) => prev.filter((task) => task.id !== id));
+    });
   };
 
   const addTask = (title: string, description: string) => {
-    const newTask = {
-      id: "a3",
-      title,
-      description,
-      status: "active" as const,
-    };
+    startTransition(async () => {
+      const newTask = await createTodo(title, description);
 
-    const updatedTasks = [...tasks, newTask];
-
-    setTasks(updatedTasks);
-
-    return updatedTasks;
+      setTasks((prev) => [newTask, ...prev]);
+    });
   };
 
   return {
     tasks,
+    isPending,
     addTask,
     updateTask,
     deleteTask,
