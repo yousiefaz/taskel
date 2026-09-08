@@ -7,11 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum TodoStatus {
-  ACTIVE
-  COMPLETED
-}
-
 model Todo {
   id          String     @id @default(cuid())
   title       String
@@ -21,4 +16,9 @@ model Todo {
   updatedAt   DateTime   @updatedAt
 
   @@map("todos")
+}
+
+enum TodoStatus {
+  ACTIVE
+  COMPLETED
 }
