@@ -16,14 +16,19 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
+import { useTasks } from "@/hooks/useTasks";
+
+import { useLocale, useTranslations } from "next-intl";
+
 import { toast } from "sonner";
 import { CirclePlus } from "lucide-react";
 import { useState } from "react";
 import { Label } from "../ui/label";
-import { useTranslations } from "next-intl";
-import { useTasks } from "@/hooks/useTasks";
 
 export default function TaskForm() {
+  const locale = useLocale();
+  const direction = locale === "ar" ? "rtl" : "ltr";
+
   const formT = useTranslations("taskForm");
   const toastT = useTranslations("toasts");
 
@@ -45,7 +50,7 @@ export default function TaskForm() {
     setDescription("");
     setIsAddDialogOpen(false);
 
-    toast.success(toastT("taskAdded"), { position: "top-center" });
+    toast.success(toastT("taskAdded"), { position: "bottom-center" });
   };
 
   return (
@@ -68,7 +73,10 @@ export default function TaskForm() {
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="w-[calc(100%-1.5rem)] max-w-md rounded-xl p-4 sm:p-6">
+        <DialogContent
+          className="w-[calc(100%-1.5rem)] max-w-md rounded-xl p-4 sm:p-6"
+          dir={direction}
+        >
           <DialogHeader className="space-y-2 text-center sm:text-start">
             <DialogTitle className="text-lg md:text-xl">
               {formT("dialogTitle")}
@@ -86,6 +94,7 @@ export default function TaskForm() {
                 value={title}
                 placeholder={formT("titlePlaceholder")}
                 onChange={(e) => setTitle(e.target.value)}
+                dir="auto"
                 className="text-sm md:text-base"
               />
             </div>
@@ -97,6 +106,7 @@ export default function TaskForm() {
                 value={description}
                 placeholder={formT("descriptionPlaceholder")}
                 onChange={(e) => setDescription(e.target.value)}
+                dir="auto"
                 className="min-h-28 resize-none text-sm md:text-base"
               />
             </div>

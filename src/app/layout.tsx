@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ar" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body className={rubik.className}>{children}</body>
     </html>
   );

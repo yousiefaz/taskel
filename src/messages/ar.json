@@ -13,11 +13,11 @@
     "dialogTitle": "إضافة مهمة جديدة",
     "dialogDescription": "قم بملء بيانات المهمة ثم اضغط اضافة المهمة.",
     "TitleLabel": "عنوان المهمة",
-    "titlePlaceholder": "اكتبل عنوان المهمة...",
+    "titlePlaceholder": "اكتب عنوان المهمة...",
     "DescriptionLabel": "الوصف",
     "descriptionPlaceholder": "اكتب وصف المهمة...",
     "cancelBtn": "إلغاء",
-    "saveBtnTooltip": "ادخل البيانات الازمة",
+    "saveBtnTooltip": "ادخل البيانات اللازمة",
     "saveBtn": "إضافة المهمة"
   },
   "taskFilter": {
@@ -33,11 +33,11 @@
     "dialogTitle": "تعديل المهمة",
     "dialogDescription": "قم بتعديل بيانات المهمة ثم اضغط حفظ التعديلات.",
     "TitleLabel": "عنوان المهمة",
-    "titlePlaceholder": "اكتبل عنوان المهمة...",
+    "titlePlaceholder": "اكتب عنوان المهمة...",
     "DescriptionLabel": "الوصف",
     "descriptionPlaceholder": "اكتب وصف المهمة...",
     "cancelBtn": "إلغاء",
-    "saveBtnTooltip": "ادخل البيانات الازمة",
+    "saveBtnTooltip": "ادخل البيانات اللازمة",
     "saveBtn": "حفظ التعديلات",
 
     "alertDialogTitle": "حذف المهمة",

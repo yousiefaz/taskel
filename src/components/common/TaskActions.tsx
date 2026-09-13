@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ArrowRightLeft, CircleCheck, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import {
   AlertDialog,
@@ -37,6 +37,9 @@ import { useTasks } from "@/hooks/useTasks";
 import type { TaskActionsProps } from "@/types/task.types";
 
 export default function TaskActions({ task }: TaskActionsProps) {
+  const locale = useLocale();
+  const direction = locale === "ar" ? "rtl" : "ltr";
+
   const actionsT = useTranslations("taskActions");
   const toastT = useTranslations("toasts");
 
@@ -134,9 +137,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
           <TooltipContent>{actionsT("editBtn")}</TooltipContent>
         </Tooltip>
 
-        <DialogContent className="w-[calc(100%-1.5rem)] max-w-md rounded-xl p-4 sm:p-6">
+        <DialogContent
+          className="w-[calc(100%-1.5rem)] max-w-md rounded-xl p-4 sm:p-6"
+          dir={direction}
+        >
           <DialogHeader className="space-y-2 text-center sm:text-start">
-            <DialogTitle className="text-lg md:text-xl">
+            <DialogTitle className="text-lg md:text-xl text-start">
               {actionsT("dialogTitle")}
             </DialogTitle>
             <DialogDescription className="text-sm md:text-base">
@@ -152,6 +158,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 value={editTitle}
                 placeholder={actionsT("titlePlaceholder")}
                 onChange={(e) => setEditTitle(e.target.value)}
+                dir="auto"
                 className="text-sm md:text-base"
               />
             </div>
@@ -210,7 +217,10 @@ export default function TaskActions({ task }: TaskActionsProps) {
           <TooltipContent>{actionsT("removeBtn")}</TooltipContent>
         </Tooltip>
 
-        <AlertDialogContent className="w-[calc(100%-1.5rem)] max-w-sm rounded-xl p-4 sm:p-6">
+        <AlertDialogContent
+          className="w-[calc(100%-1.5rem)] max-w-sm rounded-xl p-4 sm:p-6"
+          dir={direction}
+        >
           <AlertDialogHeader className="text-center sm:text-start">
             <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
               <Trash2 className="size-5" />

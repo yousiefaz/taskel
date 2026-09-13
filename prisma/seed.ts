@@ -20,42 +20,21 @@ const prisma = new PrismaClient({
 async function main() {
   console.log("🌱 Seeding database...");
 
-  await prisma.todo.upsert({
-    where: {
-      id: "seed-getting-started-ar",
-    },
-    update: {
-      title: "ابدأ باستخدام التطبيق",
-      description:
-        "اضغط على زر 'إضافة مهمة جديدة' ثم اكتب عنوان ووصف للمهمة، وبعدها اضغط إضافة لعرضها في القائمة.",
-      status: TodoStatus.COMPLETED,
-    },
-    create: {
-      id: "seed-getting-started-ar",
-      title: "ابدأ باستخدام التطبيق",
-      description:
-        "اضغط على زر 'إضافة مهمة جديدة' ثم اكتب عنوان ووصف للمهمة، وبعدها اضغط إضافة لعرضها في القائمة.",
-      status: TodoStatus.COMPLETED,
-    },
-  });
-
-  await prisma.todo.upsert({
-    where: {
-      id: "seed-getting-started-en",
-    },
-    update: {
-      title: "How to use the app",
-      description:
-        "Click on 'Add New Task', enter a title and description, then save it. You can mark tasks as completed or delete them anytime.",
-      status: TodoStatus.ACTIVE,
-    },
-    create: {
-      id: "seed-getting-started-en",
-      title: "How to use the app",
-      description:
-        "Click on 'Add New Task', enter a title and description, then save it. You can mark tasks as completed or delete them anytime.",
-      status: TodoStatus.ACTIVE,
-    },
+  await prisma.todo.createMany({
+    data: [
+      {
+        title: "ابدأ باستخدام التطبيق",
+        description:
+          "اضغط على زر 'إضافة مهمة جديدة' ثم اكتب عنوان ووصف للمهمة، وبعدها اضغط إضافة لعرضها في القائمة.",
+        status: TodoStatus.COMPLETED,
+      },
+      {
+        title: "How to use the app",
+        description:
+          "Click on 'Add New Task', enter a title and description, then save it. You can mark tasks as completed or delete them anytime.",
+        status: TodoStatus.ACTIVE,
+      },
+    ],
   });
 
   console.log("✅ Database seeded");
