@@ -1,30 +1,39 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-import { NextIntlClientProvider } from "next-intl";
-import { Toaster } from "sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+import { Toaster } from "sonner";
 
-import { routing } from "@/i18n/routing";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { DirectionProvider } from "@/components/ui/direction";
-import type { Locale } from "@/types/i18n.types";
+import { routing } from "@/i18n/routing";
 
 interface LocaleLayoutProps {
   children: ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{
+    locale: string;
+  }>;
 }
 
-export function generateStaticParams(): { locale: Locale }[] {
-  return routing.locales.map((locale) => ({ locale }));
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({
+    locale,
+  }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{
+    locale: string;
+  }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
 
   return {
     title: locale === "ar" ? "تاسكل" : "Taskel",
@@ -39,11 +48,12 @@ export default async function LocaleLayout({
 }: LocaleLayoutProps) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale)) {
+  if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
   const messages = (await import(`../../messages/${locale}.json`)).default;
+
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (

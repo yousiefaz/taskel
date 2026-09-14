@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient, TodoStatus } from "../generated/prisma/client";
+import { PrismaClient, TaskStatus } from "../generated/prisma/client";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -20,19 +20,19 @@ const prisma = new PrismaClient({
 async function main() {
   console.log("🌱 Seeding database...");
 
-  await prisma.todo.createMany({
+  await prisma.task.createMany({
     data: [
       {
         title: "ابدأ باستخدام التطبيق",
         description:
           "اضغط على زر 'إضافة مهمة جديدة' ثم اكتب عنوان ووصف للمهمة، وبعدها اضغط إضافة لعرضها في القائمة.",
-        status: TodoStatus.COMPLETED,
+        status: TaskStatus.COMPLETED,
       },
       {
         title: "How to use the app",
         description:
           "Click on 'Add New Task', enter a title and description, then save it. You can mark tasks as completed or delete them anytime.",
-        status: TodoStatus.ACTIVE,
+        status: TaskStatus.ACTIVE,
       },
     ],
   });

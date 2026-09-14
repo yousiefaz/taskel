@@ -6,17 +6,3 @@ export interface Task {
   description: string;
   status: TaskStatus;
 }
-
-export interface UpdateTaskData {
-  title?: string;
-  description?: string;
-  status?: TaskStatus;
-}
-
-export interface TaskItemProps {
-  task: Task;
-}
-
-export interface TaskActionsProps {
-  task: Task;
-}

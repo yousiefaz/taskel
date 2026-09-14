@@ -9,9 +9,9 @@
 * 🟢 You can import this file directly.
 */
 
-export const TodoStatus = {
+export const TaskStatus = {
   ACTIVE: 'ACTIVE',
   COMPLETED: 'COMPLETED'
 } as const
 
-export type TodoStatus = (typeof TodoStatus)[keyof typeof TodoStatus]
+export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus]

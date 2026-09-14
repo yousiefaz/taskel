@@ -1,5 +1,10 @@
 "use client";
 
+import { useState, useTransition } from "react";
+import { CirclePlus } from "lucide-react";
+import { toast } from "sonner";
+import { useLocale, useTranslations } from "next-intl";
+
 import {
   Dialog,
   DialogClose,
@@ -11,18 +16,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import { createTask } from "@/actions/task.actions";
+
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-
-import { useTasks } from "@/hooks/useTasks";
-
-import { useLocale, useTranslations } from "next-intl";
-
-import { toast } from "sonner";
-import { CirclePlus } from "lucide-react";
-import { useState } from "react";
 import { Label } from "../ui/label";
 
 export default function TaskForm() {
@@ -36,109 +35,125 @@ export default function TaskForm() {
   const [description, setDescription] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
-  const { addTask } = useTasks();
+  const [isPending, startTransition] = useTransition();
 
   const isDisabled = !title.trim();
+
+  const resetForm = () => {
+    setTitle("");
+    setDescription("");
+  };
 
   const handleAddTask = () => {
     const trimmedTitle = title.trim();
     const trimmedDescription = description.trim();
 
-    addTask(trimmedTitle, trimmedDescription);
+    startTransition(async () => {
+      await createTask(trimmedTitle, trimmedDescription);
 
-    setTitle("");
-    setDescription("");
-    setIsAddDialogOpen(false);
+      resetForm();
+      setIsAddDialogOpen(false);
 
-    toast.success(toastT("taskAdded"), { position: "bottom-center" });
+      toast.success(toastT("taskAdded"), {
+        position: "bottom-center",
+      });
+    });
   };
 
   return (
-    <>
-      <Dialog
-        open={isAddDialogOpen}
-        onOpenChange={(open) => {
-          setIsAddDialogOpen(open);
+    <Dialog
+      open={isAddDialogOpen}
+      onOpenChange={(open) => {
+        if (isPending) return;
 
-          if (open) {
-            setTitle("");
-            setDescription("");
-          }
-        }}
+        setIsAddDialogOpen(open);
+
+        if (open) {
+          resetForm();
+        }
+      }}
+    >
+      <DialogTrigger asChild>
+        <Button size="lg" className="mx-auto flex w-full gap-2 md:w-50">
+          <CirclePlus className="size-5 shrink-0" />
+          <span className="truncate">{formT("triggerButton")}</span>
+        </Button>
+      </DialogTrigger>
+
+      <DialogContent
+        className="w-[calc(100%-1.5rem)] max-w-md rounded-xl p-4 sm:p-6"
+        dir={direction}
       >
-        <DialogTrigger asChild>
-          <Button size="lg" className="flex mx-auto w-full gap-2 md:w-50">
-            <CirclePlus className="size-5 shrink-0" />
-            <span className="truncate">{formT("triggerButton")}</span>
-          </Button>
-        </DialogTrigger>
+        <DialogHeader className="space-y-2 text-center sm:text-start">
+          <DialogTitle className="text-lg md:text-xl">
+            {formT("dialogTitle")}
+          </DialogTitle>
 
-        <DialogContent
-          className="w-[calc(100%-1.5rem)] max-w-md rounded-xl p-4 sm:p-6"
-          dir={direction}
-        >
-          <DialogHeader className="space-y-2 text-center sm:text-start">
-            <DialogTitle className="text-lg md:text-xl">
-              {formT("dialogTitle")}
-            </DialogTitle>
-            <DialogDescription className="text-sm md:text-base">
-              {formT("dialogDescription")}
-            </DialogDescription>
-          </DialogHeader>
+          <DialogDescription className="text-sm md:text-base">
+            {formT("dialogDescription")}
+          </DialogDescription>
+        </DialogHeader>
 
-          <div className="flex flex-col gap-4 py-2">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="task-title">{formT("TitleLabel")}</Label>
-              <Input
-                id="task-title"
-                value={title}
-                placeholder={formT("titlePlaceholder")}
-                onChange={(e) => setTitle(e.target.value)}
-                dir="auto"
-                className="text-sm md:text-base"
-              />
-            </div>
+        <div className="flex flex-col gap-4 py-2">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="task-title">{formT("TitleLabel")}</Label>
 
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="task-desc">{formT("DescriptionLabel")}</Label>
-              <Textarea
-                id="task-desc"
-                value={description}
-                placeholder={formT("descriptionPlaceholder")}
-                onChange={(e) => setDescription(e.target.value)}
-                dir="auto"
-                className="min-h-28 resize-none text-sm md:text-base"
-              />
-            </div>
+            <Input
+              id="task-title"
+              value={title}
+              placeholder={formT("titlePlaceholder")}
+              onChange={(e) => setTitle(e.target.value)}
+              dir="auto"
+              className="text-sm md:text-base"
+              disabled={isPending}
+            />
           </div>
 
-          <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
-            <DialogClose asChild>
-              <Button variant="outline" className="w-full sm:w-auto">
-                {formT("cancelBtn")}
-              </Button>
-            </DialogClose>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="task-desc">{formT("DescriptionLabel")}</Label>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="w-full sm:w-auto">
-                  <Button
-                    onClick={handleAddTask}
-                    disabled={isDisabled}
-                    className="w-full sm:w-auto"
-                  >
-                    {formT("saveBtn")}
-                  </Button>
-                </span>
-              </TooltipTrigger>
+            <Textarea
+              id="task-desc"
+              value={description}
+              placeholder={formT("descriptionPlaceholder")}
+              onChange={(e) => setDescription(e.target.value)}
+              dir="auto"
+              className="min-h-28 resize-none text-sm md:text-base"
+              disabled={isPending}
+            />
+          </div>
+        </div>
 
-              {isDisabled && (
-                <TooltipContent>{formT("saveBtnTooltip")}</TooltipContent>
-              )}
-            </Tooltip>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
+        <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
+          <DialogClose asChild>
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto"
+              disabled={isPending}
+            >
+              {formT("cancelBtn")}
+            </Button>
+          </DialogClose>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="w-full sm:w-auto">
+                <Button
+                  onClick={handleAddTask}
+                  disabled={isDisabled || isPending}
+                  className="w-full sm:w-auto"
+                >
+                  {formT("saveBtn")}
+                </Button>
+              </span>
+            </TooltipTrigger>
+
+            {isDisabled && (
+              <TooltipContent>{formT("saveBtnTooltip")}</TooltipContent>
+            )}
+          </Tooltip>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

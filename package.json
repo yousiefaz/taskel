@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "Taskel",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.1.0",

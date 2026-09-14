@@ -5,7 +5,7 @@ export default function TaskFilter() {
   const t = useTranslations("taskFilter");
 
   return (
-    <div className="flex w-full items-center justify-center mb-1">
+    <div className="mb-1 flex w-full items-center justify-center">
       <TabsList className="gap-2">
         <TabsTrigger value="all">{t("all")}</TabsTrigger>
         <TabsTrigger value="active">{t("active")}</TabsTrigger>

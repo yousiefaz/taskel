@@ -16,16 +16,19 @@ import TaskFilter from "./TaskFilter";
 import TaskForm from "./TaskForm";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-import { useTasks } from "@/hooks/useTasks";
 import type { Task } from "@/types/task.types";
 
 import { AnimatePresence, motion } from "motion/react";
 
-export default function TaskList() {
+interface TaskListProps {
+  tasks: Task[];
+}
+
+export default function TaskList({ tasks }: TaskListProps) {
   const t = useTranslations("tasks");
-  const { tasks } = useTasks();
 
   const activeTasks = tasks.filter((task) => task.status === "active");
+
   const completedTasks = tasks.filter((task) => task.status === "completed");
 
   const renderTasks = (taskList: Task[]) => {
@@ -62,7 +65,7 @@ export default function TaskList() {
         <div className="hidden md:block" />
 
         <div>
-          <CardTitle className="text-center text-3xl font-bold md:text-5xl cursor-default">
+          <CardTitle className="cursor-default text-center text-3xl font-bold md:text-5xl">
             {t("title")}
           </CardTitle>
         </div>

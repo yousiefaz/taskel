@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { ArrowRightLeft, CircleCheck, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useLocale, useTranslations } from "next-intl";
@@ -33,8 +33,17 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-import { useTasks } from "@/hooks/useTasks";
-import type { TaskActionsProps } from "@/types/task.types";
+import {
+  deleteTask,
+  toggleTaskStatus,
+  updateTask,
+} from "@/actions/task.actions";
+
+import type { Task } from "@/types/task.types";
+
+interface TaskActionsProps {
+  task: Task;
+}
 
 export default function TaskActions({ task }: TaskActionsProps) {
   const locale = useLocale();
@@ -45,44 +54,41 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
   const { id, title, description, status } = task;
 
-  const [editTitle, setEditTitle] = useState<string>(title);
-  const [editDescription, setEditDescription] = useState<string>(description);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+  const [editTitle, setEditTitle] = useState(title);
+  const [editDescription, setEditDescription] = useState(description);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-  const { toggleTask, updateTask, deleteTask } = useTasks();
+  const [isPending, startTransition] = useTransition();
 
   const isDisabled = !editTitle.trim();
 
   const handleToggleTaskStatus = () => {
-    toggleTask(id);
+    startTransition(async () => {
+      await toggleTaskStatus(id);
 
-    setTimeout(() => {
       toast(toastT("taskToggled"));
-    }, 250);
+    });
   };
 
   const handleEditClick = () => {
     const trimmedTitle = editTitle.trim();
     const trimmedDescription = editDescription.trim();
 
-    updateTask(id, {
-      title: trimmedTitle,
-      description: trimmedDescription,
-    });
+    startTransition(async () => {
+      await updateTask(id, trimmedTitle, trimmedDescription);
 
-    setIsEditDialogOpen(false);
+      setIsEditDialogOpen(false);
 
-    setTimeout(() => {
       toast(toastT("taskEdited"));
-    }, 250);
+    });
   };
 
   const handleDeleteClick = () => {
-    deleteTask(id);
+    startTransition(async () => {
+      await deleteTask(id);
 
-    setTimeout(() => {
       toast(toastT("taskDeleted"));
-    }, 250);
+    });
   };
 
   const iconButtonProps = {
@@ -96,11 +102,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
       {/* Toggle task status */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="w-full sm:w-auto">
+          <span>
             <Button
               {...iconButtonProps}
               variant={status === "completed" ? "default" : "outline"}
               onClick={handleToggleTaskStatus}
+              disabled={isPending}
             >
               {status === "completed" ? (
                 <CircleCheck className="size-4 md:size-5" />
@@ -110,6 +117,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
             </Button>
           </span>
         </TooltipTrigger>
+
         <TooltipContent>{actionsT("toggleStatusBtn")}</TooltipContent>
       </Tooltip>
       {/* Toggle task status */}
@@ -117,7 +125,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
       {/* Edit task */}
       <Dialog
         open={isEditDialogOpen}
-        onOpenChange={(open: boolean) => {
+        onOpenChange={(open) => {
           setIsEditDialogOpen(open);
 
           if (open) {
@@ -129,11 +137,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button {...iconButtonProps}>
+              <Button {...iconButtonProps} disabled={isPending}>
                 <Edit className="size-4 md:size-5" />
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
+
           <TooltipContent>{actionsT("editBtn")}</TooltipContent>
         </Tooltip>
 
@@ -142,9 +151,10 @@ export default function TaskActions({ task }: TaskActionsProps) {
           dir={direction}
         >
           <DialogHeader className="space-y-2 text-center sm:text-start">
-            <DialogTitle className="text-lg md:text-xl text-start">
+            <DialogTitle className="text-start text-lg md:text-xl">
               {actionsT("dialogTitle")}
             </DialogTitle>
+
             <DialogDescription className="text-sm md:text-base">
               {actionsT("dialogDescription")}
             </DialogDescription>
@@ -152,9 +162,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
           <div className="flex flex-col gap-4 py-2">
             <div className="flex flex-col gap-2">
-              <Label htmlFor="task-title">{actionsT("TitleLabel")}</Label>
+              <Label htmlFor={`edit-task-title-${id}`}>
+                {actionsT("TitleLabel")}
+              </Label>
+
               <Input
-                id="task-title"
+                id={`edit-task-title-${id}`}
                 value={editTitle}
                 placeholder={actionsT("titlePlaceholder")}
                 onChange={(e) => setEditTitle(e.target.value)}
@@ -164,12 +177,16 @@ export default function TaskActions({ task }: TaskActionsProps) {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label htmlFor="task-desc">{actionsT("DescriptionLabel")}</Label>
+              <Label htmlFor={`edit-task-desc-${id}`}>
+                {actionsT("DescriptionLabel")}
+              </Label>
+
               <Textarea
-                id="task-desc"
+                id={`edit-task-desc-${id}`}
                 value={editDescription}
                 placeholder={actionsT("descriptionPlaceholder")}
                 onChange={(e) => setEditDescription(e.target.value)}
+                dir="auto"
                 className="min-h-28 resize-none text-sm md:text-base"
               />
             </div>
@@ -177,7 +194,11 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
           <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
             <DialogClose asChild>
-              <Button variant="outline" className="w-full sm:w-auto">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto"
+                disabled={isPending}
+              >
                 {actionsT("cancelBtn")}
               </Button>
             </DialogClose>
@@ -187,7 +208,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 <span className="w-full sm:w-auto">
                   <Button
                     onClick={handleEditClick}
-                    disabled={isDisabled}
+                    disabled={isDisabled || isPending}
                     className="w-full sm:w-auto"
                   >
                     {actionsT("saveBtn")}
@@ -209,11 +230,16 @@ export default function TaskActions({ task }: TaskActionsProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <AlertDialogTrigger asChild>
-              <Button {...iconButtonProps} variant="destructive">
+              <Button
+                {...iconButtonProps}
+                variant="destructive"
+                disabled={isPending}
+              >
                 <Trash2 className="size-4 md:size-5" />
               </Button>
             </AlertDialogTrigger>
           </TooltipTrigger>
+
           <TooltipContent>{actionsT("removeBtn")}</TooltipContent>
         </Tooltip>
 
@@ -236,13 +262,18 @@ export default function TaskActions({ task }: TaskActionsProps) {
           </AlertDialogHeader>
 
           <AlertDialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
-            <AlertDialogCancel variant="outline" className="w-full sm:w-auto">
+            <AlertDialogCancel
+              variant="outline"
+              className="w-full sm:w-auto"
+              disabled={isPending}
+            >
               {actionsT("cancelBtn")}
             </AlertDialogCancel>
 
             <AlertDialogAction
               variant="destructive"
               onClick={handleDeleteClick}
+              disabled={isPending}
               className="w-full sm:w-auto"
             >
               {actionsT("deleteBtn")}

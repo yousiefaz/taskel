@@ -7,18 +7,16 @@ datasource db {
   provider = "postgresql"
 }
 
-model Todo {
+model Task {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      TodoStatus @default(ACTIVE)
+  status      TaskStatus @default(ACTIVE)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-
-  @@map("todos")
 }
 
-enum TodoStatus {
+enum TaskStatus {
   ACTIVE
   COMPLETED
 }
