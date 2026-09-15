@@ -77,7 +77,6 @@ export default function TaskList({ tasks }: TaskListProps) {
 
       <CardContent className="px-3 md:px-6">
         <Tabs defaultValue="all" className="w-full">
-          <TaskFilter />
 
           <ScrollArea className="h-87 w-full md:h-106">
             <TabsContent value="all" className="px-4">

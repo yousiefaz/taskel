@@ -172,7 +172,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 placeholder={actionsT("titlePlaceholder")}
                 onChange={(e) => setEditTitle(e.target.value)}
                 dir="auto"
-                className="text-sm md:text-base"
+                className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               />
             </div>
 
@@ -187,7 +187,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 placeholder={actionsT("descriptionPlaceholder")}
                 onChange={(e) => setEditDescription(e.target.value)}
                 dir="auto"
-                className="min-h-28 resize-none text-sm md:text-base"
+                className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               />
             </div>
           </div>

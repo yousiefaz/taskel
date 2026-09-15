@@ -3,9 +3,13 @@
 import { revalidatePath } from "next/cache";
 
 import { TaskStatus } from "../../generated/prisma/client";
+
+import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function createTask(title: string, description: string) {
+  const user = await requireUser();
+
   const trimmedTitle = title.trim();
   const trimmedDescription = description.trim();
 
@@ -18,6 +22,7 @@ export async function createTask(title: string, description: string) {
       title: trimmedTitle,
       description: trimmedDescription || null,
       status: TaskStatus.ACTIVE,
+      userId: user.id,
     },
   });
 
@@ -29,6 +34,8 @@ export async function updateTask(
   title: string,
   description: string,
 ) {
+  const user = await requireUser();
+
   const trimmedTitle = title.trim();
   const trimmedDescription = description.trim();
 
@@ -36,9 +43,10 @@ export async function updateTask(
     throw new Error("Title is required");
   }
 
-  await prisma.task.update({
+  const result = await prisma.task.updateMany({
     where: {
       id,
+      userId: user.id,
     },
     data: {
       title: trimmedTitle,
@@ -46,13 +54,20 @@ export async function updateTask(
     },
   });
 
+  if (result.count === 0) {
+    throw new Error("Task not found");
+  }
+
   revalidatePath("/", "layout");
 }
 
 export async function toggleTaskStatus(id: string) {
-  const task = await prisma.task.findUnique({
+  const user = await requireUser();
+
+  const task = await prisma.task.findFirst({
     where: {
       id,
+      userId: user.id,
     },
     select: {
       status: true,
@@ -79,11 +94,18 @@ export async function toggleTaskStatus(id: string) {
 }
 
 export async function deleteTask(id: string) {
-  await prisma.task.delete({
+  const user = await requireUser();
+
+  const result = await prisma.task.deleteMany({
     where: {
       id,
+      userId: user.id,
     },
   });
+
+  if (result.count === 0) {
+    throw new Error("Task not found");
+  }
 
   revalidatePath("/", "layout");
 }

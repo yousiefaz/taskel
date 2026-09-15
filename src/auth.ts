@@ -1,0 +1,108 @@
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+
+import { PrismaAdapter } from "@auth/prisma-adapter";
+
+import { prisma } from "@/lib/prisma";
+import { verifyPassword } from "@/lib/password";
+import { signInSchema } from "@/lib/validations/auth";
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+
+  providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      authorization: {
+        params: {
+          prompt: "select_account",
+        },
+      },
+    }),
+
+    Credentials({
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+        },
+
+        password: {
+          label: "Password",
+          type: "password",
+        },
+      },
+
+      async authorize(credentials) {
+        const result = signInSchema.safeParse(credentials);
+
+        if (!result.success) {
+          return null;
+        }
+
+        const { email, password } = result.data;
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email,
+          },
+        });
+
+        if (!user?.passwordHash) {
+          return null;
+        }
+
+        const isPasswordValid = await verifyPassword(
+          password,
+          user.passwordHash,
+        );
+
+        if (!isPasswordValid) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        };
+      },
+    }),
+  ],
+
+  session: {
+    strategy: "jwt",
+  },
+
+  //   callbacks: {
+  //     async session({ session, user }) {
+  //       if (session.user) {
+  //         session.user.id = user.id;
+  //       }
+
+  //       return session;
+  //     },
+  //   },
+  // });
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+      }
+
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+      }
+
+      return session;
+    },
+  },
+});

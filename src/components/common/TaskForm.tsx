@@ -55,7 +55,7 @@ export default function TaskForm() {
       setIsAddDialogOpen(false);
 
       toast.success(toastT("taskAdded"), {
-        position: "bottom-center",
+        position: "bottom-right",
       });
     });
   };
@@ -104,7 +104,7 @@ export default function TaskForm() {
               placeholder={formT("titlePlaceholder")}
               onChange={(e) => setTitle(e.target.value)}
               dir="auto"
-              className="text-sm md:text-base"
+              className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
             />
           </div>
@@ -118,7 +118,7 @@ export default function TaskForm() {
               placeholder={formT("descriptionPlaceholder")}
               onChange={(e) => setDescription(e.target.value)}
               dir="auto"
-              className="min-h-28 resize-none text-sm md:text-base"
+              className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
             />
           </div>
