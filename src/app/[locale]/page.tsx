@@ -1,12 +1,10 @@
-import TaskList from "@/components/common/TaskList";
-import { getTasks } from "@/data/tasks";
+import { Link } from "@/i18n/navigation";
 
-export default async function Home() {
-  const tasks = await getTasks();
-
+export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-6 md:px-6 md:py-10">
-      <TaskList tasks={tasks} />
-    </main>
+    <>
+      Home
+      <Link href="/tasks">Tasks</Link>
+    </>
   );
 }

@@ -1,8 +1,15 @@
 {
-  "tasks": {
+  "language": {
+    "switch": "تغيير اللغة",
+    "ar": "العربية",
+    "en": "English"
+  },
+
+  "taskList": {
     "title": "تاسكل",
     "noTasks": "لا توجد مهام حالياً"
   },
+
   "taskStatus": {
     "active": "قيد التنفيذ",
     "completed": "مكتملة"
@@ -50,9 +57,38 @@
     "taskEdited": "تم تعديل المهمة بنجاح",
     "taskDeleted": "تم حذف المهمة بنجاح"
   },
-  "language": {
-    "switch": "تغيير اللغة",
-    "ar": "العربية",
-    "en": "English"
+
+  "signUpForm": {
+    "title": "تاسكل",
+    "description": "أنشئ حسابك للبدء",
+
+    "name": {
+      "label": "الاسم",
+      "placeholder": "أدخل اسمك"
+    },
+
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "you@example.com"
+    },
+
+    "password": {
+      "label": "كلمة المرور",
+      "placeholder": "أنشئ كلمة مرور"
+    },
+
+    "confirmPassword": {
+      "label": "تأكيد كلمة المرور",
+      "placeholder": "أكد كلمة المرور"
+    },
+
+    "submit": "إنشاء الحساب",
+    "submitting": "جاري إنشاء الحساب...",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "signIn": "تسجيل الدخول"
+  },
+
+  "common": {
+    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
   }
 }

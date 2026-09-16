@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DirectionProvider } from "@/components/ui/direction";
 import { routing } from "@/i18n/routing";
+import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 
 interface LocaleLayoutProps {
   children: ReactNode;
@@ -57,12 +58,14 @@ export default async function LocaleLayout({
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <div dir={dir}>
+    <div dir={dir} className=" bg-gray-100">
       <DirectionProvider direction={dir}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <TooltipProvider>
+            <LanguageSwitcher />
+
             {children}
-            <Toaster />
+            <Toaster position="bottom-right" />
           </TooltipProvider>
         </NextIntlClientProvider>
       </DirectionProvider>

@@ -1,8 +1,15 @@
 {
-  "tasks": {
+  "language": {
+    "switch": "Switch Language",
+    "ar": "Arabic",
+    "en": "English"
+  },
+
+  "taskList": {
     "title": "Taskel",
     "noTasks": "No tasks available"
   },
+
   "taskStatus": {
     "active": "Active",
     "completed": "Completed"
@@ -54,9 +61,38 @@
     "taskDeleted": "Task deleted successfully"
   },
 
-  "language": {
-    "switch": "Switch Language",
-    "ar": "Arabic",
-    "en": "English"
+  "signUpForm": {
+    "title": "Taskel",
+
+    "description": "Create your account to get started",
+
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter your name"
+    },
+
+    "email": {
+      "label": "Email",
+      "placeholder": "you@example.com"
+    },
+
+    "password": {
+      "label": "Password",
+      "placeholder": "Create a password"
+    },
+
+    "confirmPassword": {
+      "label": "Confirm password",
+      "placeholder": "Confirm your password"
+    },
+
+    "submit": "Create Account",
+    "submitting": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+
+  "common": {
+    "somethingWentWrong": "Something went wrong. Please try again."
   }
 }

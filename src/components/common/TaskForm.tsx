@@ -1,9 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CirclePlus } from "lucide-react";
-import { toast } from "sonner";
 import { useLocale, useTranslations } from "next-intl";
+import { useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
+
+import { createTask } from "@/actions/task.actions";
+import { taskSchema, type TaskInput } from "@/lib/validations/task";
 
 import {
   Dialog,
@@ -16,13 +21,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { createTask } from "@/actions/task.actions";
-
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Label } from "../ui/label";
 
 export default function TaskForm() {
   const locale = useLocale();
@@ -31,32 +34,42 @@ export default function TaskForm() {
   const formT = useTranslations("taskForm");
   const toastT = useTranslations("toasts");
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-
   const [isPending, startTransition] = useTransition();
 
-  const isDisabled = !title.trim();
+  const form = useForm<TaskInput>({
+    resolver: zodResolver(taskSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+    },
+  });
+
+  const title = useWatch({
+    control: form.control,
+    name: "title",
+  });
+  const isDisabled = !title?.trim();
 
   const resetForm = () => {
-    setTitle("");
-    setDescription("");
+    form.reset();
   };
 
-  const handleAddTask = () => {
-    const trimmedTitle = title.trim();
-    const trimmedDescription = description.trim();
+  const handleAddTask = (data: TaskInput) => {
+    const trimmedTitle = data.title.trim();
+    const trimmedDescription = data.description.trim();
 
     startTransition(async () => {
-      await createTask(trimmedTitle, trimmedDescription);
+      try {
+        await createTask(trimmedTitle, trimmedDescription);
 
-      resetForm();
-      setIsAddDialogOpen(false);
+        resetForm();
+        setIsAddDialogOpen(false);
 
-      toast.success(toastT("taskAdded"), {
-        position: "bottom-right",
-      });
+        toast.success(toastT("taskAdded"));
+      } catch {
+        toast.error(toastT("taskAddFailed"));
+      }
     });
   };
 
@@ -94,19 +107,27 @@ export default function TaskForm() {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-4 py-2">
+        <form
+          onSubmit={form.handleSubmit(handleAddTask)}
+          className="space-y-4 py-2"
+        >
           <div className="flex flex-col gap-2">
             <Label htmlFor="task-title">{formT("TitleLabel")}</Label>
 
             <Input
               id="task-title"
-              value={title}
               placeholder={formT("titlePlaceholder")}
-              onChange={(e) => setTitle(e.target.value)}
               dir="auto"
               className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
+              {...form.register("title")}
             />
+
+            {form.formState.errors.title && (
+              <p className="text-sm text-destructive">
+                {form.formState.errors.title.message}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -114,45 +135,51 @@ export default function TaskForm() {
 
             <Textarea
               id="task-desc"
-              value={description}
               placeholder={formT("descriptionPlaceholder")}
-              onChange={(e) => setDescription(e.target.value)}
               dir="auto"
               className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
+              {...form.register("description")}
             />
-          </div>
-        </div>
 
-        <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
-          <DialogClose asChild>
-            <Button
-              variant="outline"
-              className="w-full sm:w-auto"
-              disabled={isPending}
-            >
-              {formT("cancelBtn")}
-            </Button>
-          </DialogClose>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="w-full sm:w-auto">
-                <Button
-                  onClick={handleAddTask}
-                  disabled={isDisabled || isPending}
-                  className="w-full sm:w-auto"
-                >
-                  {formT("saveBtn")}
-                </Button>
-              </span>
-            </TooltipTrigger>
-
-            {isDisabled && (
-              <TooltipContent>{formT("saveBtnTooltip")}</TooltipContent>
+            {form.formState.errors.description && (
+              <p className="text-sm text-destructive">
+                {form.formState.errors.description.message}
+              </p>
             )}
-          </Tooltip>
-        </DialogFooter>
+          </div>
+
+          <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full sm:w-auto"
+                disabled={isPending}
+              >
+                {formT("cancelBtn")}
+              </Button>
+            </DialogClose>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="w-full sm:w-auto">
+                  <Button
+                    type="submit"
+                    disabled={isDisabled || isPending}
+                    className="w-full sm:w-auto"
+                  >
+                    {formT("saveBtn")}
+                  </Button>
+                </span>
+              </TooltipTrigger>
+
+              {isDisabled && (
+                <TooltipContent>{formT("saveBtnTooltip")}</TooltipContent>
+              )}
+            </Tooltip>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
