@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 
 import { signUp } from "@/actions/auth.actions";
 import { signUpSchema, type SignUpInput } from "@/lib/validations/auth";
+import GoogleButton from "./GoogleButton";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -66,7 +67,7 @@ export default function SignUpForm() {
       <Card className="w-full max-w-md rounded-3xl border-border/60 shadow-sm">
         <CardHeader className="space-y-2 px-6 pb- pt-6 text-center sm:px-8">
           <CardTitle className="text-4xl font-bold tracking-tight">
-            {t("title")}
+            {commonT("title")}
           </CardTitle>
 
           <p className="text-lg text-muted-foreground">{t("description")}</p>
@@ -220,6 +221,20 @@ export default function SignUpForm() {
                 t("submit")
               )}
             </Button>
+
+            <div className="space-y-4 w-full">
+              <div className="flex items-center gap-4">
+                <div className="h-px flex-1 bg-border" />
+
+                <span className="text-xs font-medium uppercase text-muted-foreground">
+                  {t("or")}
+                </span>
+
+                <div className="h-px flex-1 bg-border" />
+              </div>
+
+              <GoogleButton />
+            </div>
 
             <p className="text-center text-sm text-muted-foreground">
               {t("alreadyHaveAccount")}{" "}

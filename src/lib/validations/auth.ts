@@ -20,7 +20,7 @@ export const signUpSchema = z
 
     password: z
       .string()
-      .min(8, {
+      .min(3, {
         error: "Password must be at least 8 characters",
       })
       .max(72, {
@@ -36,7 +36,9 @@ export const signUpSchema = z
 
 export const signInSchema = z.object({
   email: z
-    .email({ error: "Please enter a valid email address" })
+    .email({
+      error: "Please enter a valid email address",
+    })
     .transform((email) => email.trim().toLowerCase()),
 
   password: z.string().min(1, {

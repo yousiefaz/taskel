@@ -1,4 +1,9 @@
 {
+  "common": {
+    "title": "Taskel",
+    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+  },
+
   "language": {
     "switch": "تغيير اللغة",
     "ar": "العربية",
@@ -6,7 +11,6 @@
   },
 
   "taskList": {
-    "title": "تاسكل",
     "noTasks": "لا توجد مهام حالياً"
   },
 
@@ -18,20 +22,22 @@
   "taskForm": {
     "triggerButton": "إضافة مهمة جديدة",
     "dialogTitle": "إضافة مهمة جديدة",
-    "dialogDescription": "قم بملء بيانات المهمة ثم اضغط اضافة المهمة.",
-    "TitleLabel": "عنوان المهمة",
+    "dialogDescription": "قم بملء بيانات المهمة ثم اضغط إضافة المهمة.",
+    "titleLabel": "عنوان المهمة",
     "titlePlaceholder": "اكتب عنوان المهمة",
-    "DescriptionLabel": "الوصف",
+    "descriptionLabel": "الوصف",
     "descriptionPlaceholder": "اكتب وصف المهمة",
     "cancelBtn": "إلغاء",
-    "saveBtnTooltip": "ادخل البيانات اللازمة",
-    "saveBtn": "إضافة المهمة"
+    "saveBtnTooltip": "أدخل البيانات اللازمة",
+    "saveBtn": "إضافة"
   },
+
   "taskFilter": {
     "all": "الكل",
     "active": "قيد التنفيذ",
     "completed": "مكتملة"
   },
+
   "taskActions": {
     "toggleStatusBtn": "تغيير الحالة",
     "editBtn": "تعديل المهمة",
@@ -39,18 +45,19 @@
 
     "dialogTitle": "تعديل المهمة",
     "dialogDescription": "قم بتعديل بيانات المهمة ثم اضغط حفظ التعديلات.",
-    "TitleLabel": "عنوان المهمة",
+    "titleLabel": "عنوان المهمة",
     "titlePlaceholder": "اكتب عنوان المهمة",
-    "DescriptionLabel": "الوصف",
+    "descriptionLabel": "الوصف",
     "descriptionPlaceholder": "اكتب وصف المهمة",
     "cancelBtn": "إلغاء",
-    "saveBtnTooltip": "ادخل البيانات اللازمة",
+    "saveBtnTooltip": "أدخل البيانات اللازمة",
     "saveBtn": "حفظ التعديلات",
 
     "alertDialogTitle": "حذف المهمة",
     "alertDialogDescription": "سيتم حذف هذه المهمة نهائيًا ولا يمكن استرجاعها بعد ذلك.",
     "deleteBtn": "حذف"
   },
+
   "toasts": {
     "taskAdded": "تمت إضافة المهمة بنجاح",
     "taskToggled": "تم تحديث الحالة بنجاح",
@@ -59,7 +66,6 @@
   },
 
   "signUpForm": {
-    "title": "تاسكل",
     "description": "أنشئ حسابك للبدء",
 
     "name": {
@@ -83,12 +89,34 @@
     },
 
     "submit": "إنشاء الحساب",
-    "submitting": "جاري إنشاء الحساب...",
+    "submitting": "جارٍ إنشاء الحساب...",
     "alreadyHaveAccount": "لديك حساب بالفعل؟",
-    "signIn": "تسجيل الدخول"
+    "signIn": "تسجيل الدخول",
+    "or": "أو"
   },
 
-  "common": {
-    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+  "signInForm": {
+    "description": "مرحبًا بعودتك. سجّل الدخول للمتابعة",
+
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "you@example.com"
+    },
+
+    "password": {
+      "label": "كلمة المرور",
+      "placeholder": "أدخل كلمة المرور"
+    },
+
+    "submit": "تسجيل الدخول",
+    "submitting": "جارٍ تسجيل الدخول...",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "signUp": "إنشاء حساب",
+    "or": "أو"
+  },
+
+  "googleAuth": {
+    "continueWithGoogle": "المتابعة باستخدام Google",
+    "loading": "جارٍ الاتصال بـ Google..."
   }
 }

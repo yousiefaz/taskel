@@ -25,6 +25,7 @@ interface TaskListProps {
 
 export default function TaskList({ tasks }: TaskListProps) {
   const t = useTranslations("taskList");
+  const commonT = useTranslations("common");
 
   const activeTasks = tasks.filter((task) => task.status === "active");
 
@@ -66,7 +67,7 @@ export default function TaskList({ tasks }: TaskListProps) {
 
           <div>
             <CardTitle className="cursor-default text-center text-3xl font-bold md:text-5xl">
-              {t("title")}
+              {commonT("title")}
             </CardTitle>
           </div>
 

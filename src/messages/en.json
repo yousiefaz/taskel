@@ -1,4 +1,9 @@
 {
+  "common": {
+    "title": "Taskel",
+    "somethingWentWrong": "Something went wrong. Please try again."
+  },
+
   "language": {
     "switch": "Switch Language",
     "ar": "Arabic",
@@ -6,7 +11,6 @@
   },
 
   "taskList": {
-    "title": "Taskel",
     "noTasks": "No tasks available"
   },
 
@@ -19,13 +23,13 @@
     "triggerButton": "Add New Task",
     "dialogTitle": "Add New Task",
     "dialogDescription": "Fill in the task details and click add task.",
-    "TitleLabel": "Task Title",
+    "titleLabel": "Task Title",
     "titlePlaceholder": "Enter task title...",
-    "DescriptionLabel": "Description",
+    "descriptionLabel": "Description",
     "descriptionPlaceholder": "Enter task description...",
     "cancelBtn": "Cancel",
     "saveBtnTooltip": "Enter required data",
-    "saveBtn": "Add Task"
+    "saveBtn": "Add"
   },
 
   "taskFilter": {
@@ -41,9 +45,9 @@
 
     "dialogTitle": "Edit Task",
     "dialogDescription": "Update the task details and click save changes.",
-    "TitleLabel": "Task Title",
+    "titleLabel": "Task Title",
     "titlePlaceholder": "Enter task title...",
-    "DescriptionLabel": "Description",
+    "descriptionLabel": "Description",
     "descriptionPlaceholder": "Enter task description...",
     "cancelBtn": "Cancel",
     "saveBtnTooltip": "Enter required data",
@@ -62,8 +66,6 @@
   },
 
   "signUpForm": {
-    "title": "Taskel",
-
     "description": "Create your account to get started",
 
     "name": {
@@ -89,10 +91,32 @@
     "submit": "Create Account",
     "submitting": "Creating account...",
     "alreadyHaveAccount": "Already have an account?",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "or": "OR"
   },
 
-  "common": {
-    "somethingWentWrong": "Something went wrong. Please try again."
+  "signInForm": {
+    "description": "Welcome back. Sign in to continue",
+
+    "email": {
+      "label": "Email",
+      "placeholder": "you@example.com"
+    },
+
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+
+    "submit": "Sign In",
+    "submitting": "Signing in...",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "or": "OR"
+  },
+
+  "googleAuth": {
+    "continueWithGoogle": "Continue with Google",
+    "loading": "Connecting to Google..."
   }
 }

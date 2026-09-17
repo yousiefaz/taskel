@@ -15,7 +15,7 @@ import {
 import type { Locale } from "@/i18n/routing";
 
 export default function LanguageSwitcher() {
-  const languageT = useTranslations("language");
+  const t = useTranslations("language");
 
   const locale = useLocale() as Locale;
   const pathname = usePathname();
@@ -38,14 +38,14 @@ export default function LanguageSwitcher() {
           disabled={locale === "en"}
           onClick={() => changeLanguage("en")}
         >
-          {languageT("en")}
+          {t("en")}
         </DropdownMenuItem>
 
         <DropdownMenuItem
           disabled={locale === "ar"}
           onClick={() => changeLanguage("ar")}
         >
-          {languageT("ar")}
+          {t("ar")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -31,7 +31,7 @@ export default function TaskForm() {
   const locale = useLocale();
   const direction = locale === "ar" ? "rtl" : "ltr";
 
-  const formT = useTranslations("taskForm");
+  const t = useTranslations("taskForm");
   const toastT = useTranslations("toasts");
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -89,7 +89,7 @@ export default function TaskForm() {
       <DialogTrigger asChild>
         <Button size="lg" className="mx-auto flex w-full gap-2 md:w-50">
           <CirclePlus className="size-5 shrink-0" />
-          <span className="truncate">{formT("triggerButton")}</span>
+          <span className="truncate">{t("triggerButton")}</span>
         </Button>
       </DialogTrigger>
 
@@ -99,11 +99,11 @@ export default function TaskForm() {
       >
         <DialogHeader className="space-y-2 text-center sm:text-start">
           <DialogTitle className="text-lg md:text-xl">
-            {formT("dialogTitle")}
+            {t("dialogTitle")}
           </DialogTitle>
 
           <DialogDescription className="text-sm md:text-base">
-            {formT("dialogDescription")}
+            {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
 
@@ -112,11 +112,11 @@ export default function TaskForm() {
           className="space-y-4 py-2"
         >
           <div className="flex flex-col gap-2">
-            <Label htmlFor="task-title">{formT("TitleLabel")}</Label>
+            <Label htmlFor="task-title">{t("titleLabel")}</Label>
 
             <Input
               id="task-title"
-              placeholder={formT("titlePlaceholder")}
+              placeholder={t("titlePlaceholder")}
               dir="auto"
               className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
@@ -131,11 +131,11 @@ export default function TaskForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label htmlFor="task-desc">{formT("DescriptionLabel")}</Label>
+            <Label htmlFor="task-desc">{t("descriptionLabel")}</Label>
 
             <Textarea
               id="task-desc"
-              placeholder={formT("descriptionPlaceholder")}
+              placeholder={t("descriptionPlaceholder")}
               dir="auto"
               className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
@@ -157,7 +157,7 @@ export default function TaskForm() {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                {formT("cancelBtn")}
+                {t("cancelBtn")}
               </Button>
             </DialogClose>
 
@@ -169,13 +169,13 @@ export default function TaskForm() {
                     disabled={isDisabled || isPending}
                     className="w-full sm:w-auto"
                   >
-                    {formT("saveBtn")}
+                    {t("saveBtn")}
                   </Button>
                 </span>
               </TooltipTrigger>
 
               {isDisabled && (
-                <TooltipContent>{formT("saveBtnTooltip")}</TooltipContent>
+                <TooltipContent>{t("saveBtnTooltip")}</TooltipContent>
               )}
             </Tooltip>
           </DialogFooter>

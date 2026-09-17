@@ -49,7 +49,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
   const locale = useLocale();
   const direction = locale === "ar" ? "rtl" : "ltr";
 
-  const actionsT = useTranslations("taskActions");
+  const t = useTranslations("taskActions");
   const toastT = useTranslations("toasts");
 
   const { id, title, description, status } = task;
@@ -66,7 +66,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
     startTransition(async () => {
       await toggleTaskStatus(id);
 
-      toast(toastT("taskToggled"));
+      toast.success(toastT("taskToggled"));
     });
   };
 
@@ -79,7 +79,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
       setIsEditDialogOpen(false);
 
-      toast(toastT("taskEdited"));
+      toast.success(toastT("taskEdited"));
     });
   };
 
@@ -87,7 +87,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
     startTransition(async () => {
       await deleteTask(id);
 
-      toast(toastT("taskDeleted"));
+      toast.success(toastT("taskDeleted"));
     });
   };
 
@@ -118,7 +118,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
           </span>
         </TooltipTrigger>
 
-        <TooltipContent>{actionsT("toggleStatusBtn")}</TooltipContent>
+        <TooltipContent>{t("toggleStatusBtn")}</TooltipContent>
       </Tooltip>
       {/* Toggle task status */}
 
@@ -143,7 +143,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
             </DialogTrigger>
           </TooltipTrigger>
 
-          <TooltipContent>{actionsT("editBtn")}</TooltipContent>
+          <TooltipContent>{t("editBtn")}</TooltipContent>
         </Tooltip>
 
         <DialogContent
@@ -152,24 +152,22 @@ export default function TaskActions({ task }: TaskActionsProps) {
         >
           <DialogHeader className="space-y-2 text-center sm:text-start">
             <DialogTitle className="text-start text-lg md:text-xl">
-              {actionsT("dialogTitle")}
+              {t("dialogTitle")}
             </DialogTitle>
 
             <DialogDescription className="text-sm md:text-base">
-              {actionsT("dialogDescription")}
+              {t("dialogDescription")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col gap-4 py-2">
             <div className="flex flex-col gap-2">
-              <Label htmlFor={`edit-task-title-${id}`}>
-                {actionsT("TitleLabel")}
-              </Label>
+              <Label htmlFor={`edit-task-title-${id}`}>{t("titleLabel")}</Label>
 
               <Input
                 id={`edit-task-title-${id}`}
                 value={editTitle}
-                placeholder={actionsT("titlePlaceholder")}
+                placeholder={t("titlePlaceholder")}
                 onChange={(e) => setEditTitle(e.target.value)}
                 dir="auto"
                 className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
@@ -178,13 +176,13 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor={`edit-task-desc-${id}`}>
-                {actionsT("DescriptionLabel")}
+                {t("descriptionLabel")}
               </Label>
 
               <Textarea
                 id={`edit-task-desc-${id}`}
                 value={editDescription}
-                placeholder={actionsT("descriptionPlaceholder")}
+                placeholder={t("descriptionPlaceholder")}
                 onChange={(e) => setEditDescription(e.target.value)}
                 dir="auto"
                 className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
@@ -199,7 +197,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 className="w-full sm:w-auto"
                 disabled={isPending}
               >
-                {actionsT("cancelBtn")}
+                {t("cancelBtn")}
               </Button>
             </DialogClose>
 
@@ -211,13 +209,13 @@ export default function TaskActions({ task }: TaskActionsProps) {
                     disabled={isDisabled || isPending}
                     className="w-full sm:w-auto"
                   >
-                    {actionsT("saveBtn")}
+                    {t("saveBtn")}
                   </Button>
                 </span>
               </TooltipTrigger>
 
               {isDisabled && (
-                <TooltipContent>{actionsT("saveBtnTooltip")}</TooltipContent>
+                <TooltipContent>{t("saveBtnTooltip")}</TooltipContent>
               )}
             </Tooltip>
           </DialogFooter>
@@ -240,7 +238,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
             </AlertDialogTrigger>
           </TooltipTrigger>
 
-          <TooltipContent>{actionsT("removeBtn")}</TooltipContent>
+          <TooltipContent>{t("removeBtn")}</TooltipContent>
         </Tooltip>
 
         <AlertDialogContent
@@ -253,11 +251,11 @@ export default function TaskActions({ task }: TaskActionsProps) {
             </AlertDialogMedia>
 
             <AlertDialogTitle className="text-lg md:text-xl">
-              {actionsT("alertDialogTitle")}
+              {t("alertDialogTitle")}
             </AlertDialogTitle>
 
             <AlertDialogDescription className="text-sm md:text-base">
-              {actionsT("alertDialogDescription")}
+              {t("alertDialogDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -267,7 +265,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
               className="w-full sm:w-auto"
               disabled={isPending}
             >
-              {actionsT("cancelBtn")}
+              {t("cancelBtn")}
             </AlertDialogCancel>
 
             <AlertDialogAction
@@ -276,7 +274,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
               disabled={isPending}
               className="w-full sm:w-auto"
             >
-              {actionsT("deleteBtn")}
+              {t("deleteBtn")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
