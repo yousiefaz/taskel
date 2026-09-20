@@ -46,6 +46,7 @@ export async function signUp(input: unknown) {
     success: true,
   };
 }
+
 export async function signIn(input: unknown) {
   const result = signInSchema.safeParse(input);
 

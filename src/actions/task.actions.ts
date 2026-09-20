@@ -6,21 +6,26 @@ import { TaskStatus } from "../../generated/prisma/client";
 
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { taskSchema } from "@/lib/validations/task";
 
 export async function createTask(title: string, description: string) {
   const user = await requireUser();
 
-  const trimmedTitle = title.trim();
-  const trimmedDescription = description.trim();
+  const result = taskSchema.safeParse({
+    title,
+    description,
+  });
 
-  if (!trimmedTitle) {
-    throw new Error("Title is required");
+  if (!result.success) {
+    throw new Error("Invalid task data");
   }
+
+  const { title: validTitle, description: validDescription } = result.data;
 
   await prisma.task.create({
     data: {
-      title: trimmedTitle,
-      description: trimmedDescription || null,
+      title: validTitle,
+      description: validDescription || null,
       status: TaskStatus.ACTIVE,
       userId: user.id,
     },
@@ -36,25 +41,29 @@ export async function updateTask(
 ) {
   const user = await requireUser();
 
-  const trimmedTitle = title.trim();
-  const trimmedDescription = description.trim();
+  const result = taskSchema.safeParse({
+    title,
+    description,
+  });
 
-  if (!trimmedTitle) {
-    throw new Error("Title is required");
+  if (!result.success) {
+    throw new Error("Invalid task data");
   }
 
-  const result = await prisma.task.updateMany({
+  const { title: validTitle, description: validDescription } = result.data;
+
+  const updateResult = await prisma.task.updateMany({
     where: {
       id,
       userId: user.id,
     },
     data: {
-      title: trimmedTitle,
-      description: trimmedDescription || null,
+      title: validTitle,
+      description: validDescription || null,
     },
   });
 
-  if (result.count === 0) {
+  if (updateResult.count === 0) {
     throw new Error("Task not found");
   }
 
@@ -78,9 +87,10 @@ export async function toggleTaskStatus(id: string) {
     throw new Error("Task not found");
   }
 
-  await prisma.task.update({
+  await prisma.task.updateMany({
     where: {
       id,
+      userId: user.id,
     },
     data: {
       status:
@@ -104,7 +114,7 @@ export async function deleteTask(id: string) {
   });
 
   if (result.count === 0) {
-    throw new Error("Task not found");
+    throw new Error(commonT{});
   }
 
   revalidatePath("/", "layout");

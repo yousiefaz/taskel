@@ -60,6 +60,7 @@
 
   "toasts": {
     "taskAdded": "تمت إضافة المهمة بنجاح",
+    "taskAddFailed": "فشل في إضافة المهمة",
     "taskToggled": "تم تحديث الحالة بنجاح",
     "taskEdited": "تم تعديل المهمة بنجاح",
     "taskDeleted": "تم حذف المهمة بنجاح"
@@ -80,7 +81,11 @@
 
     "password": {
       "label": "كلمة المرور",
-      "placeholder": "أنشئ كلمة مرور"
+      "placeholder": "أنشئ كلمة مرور",
+
+      "requirements": {
+        "minLength": "8 أحرف على الأقل"
+      }
     },
 
     "confirmPassword": {
@@ -92,7 +97,11 @@
     "submitting": "جارٍ إنشاء الحساب...",
     "alreadyHaveAccount": "لديك حساب بالفعل؟",
     "signIn": "تسجيل الدخول",
-    "or": "أو"
+    "or": "أو",
+
+    "errors": {
+      "emailAlreadyExists": "يوجد حساب بالفعل بهذا البريد الإلكتروني."
+    }
   },
 
   "signInForm": {
@@ -112,7 +121,21 @@
     "submitting": "جارٍ تسجيل الدخول...",
     "dontHaveAccount": "ليس لديك حساب؟",
     "signUp": "إنشاء حساب",
-    "or": "أو"
+    "or": "أو",
+
+    "errors": {
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة."
+    }
+  },
+
+  "validation": {
+    "nameMin": "يجب أن يكون الاسم 4 حروف على الأقل",
+    "nameMax": "يجب ألا يزيد الاسم عن 100 حرف",
+    "emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
+    "passwordMin": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    "passwordMax": "يجب ألا تزيد كلمة المرور عن 72 حرفًا",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين"
   },
 
   "googleAuth": {

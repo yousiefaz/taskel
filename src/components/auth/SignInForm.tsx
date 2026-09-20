@@ -27,6 +27,7 @@ export default function SignInForm() {
 
   const t = useTranslations("signInForm");
   const commonT = useTranslations("common");
+  const validationT = useTranslations("validation");
 
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -36,6 +37,10 @@ export default function SignInForm() {
     formState: { errors, isSubmitting },
   } = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
+
+    mode: "onBlur",
+    reValidateMode: "onChange",
+
     defaultValues: {
       email: "",
       password: "",
@@ -86,19 +91,21 @@ export default function SignInForm() {
                 autoFocus
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.email ? "true" : "false"}
-                aria-describedby={errors.email ? "email-error" : undefined}
+                aria-invalid={errors.email?.message ? "true" : "false"}
+                aria-describedby={
+                  errors.email?.message ? "email-error" : undefined
+                }
                 {...register("email")}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.email && (
+              {errors.email?.message && (
                 <p
                   id="email-error"
                   role="alert"
                   className="text-sm text-destructive"
                 >
-                  {errors.email.message}
+                  {validationT(errors.email.message)}
                 </p>
               )}
             </div>
@@ -114,21 +121,21 @@ export default function SignInForm() {
                 autoComplete="current-password"
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.password ? "true" : "false"}
+                aria-invalid={errors.password?.message ? "true" : "false"}
                 aria-describedby={
-                  errors.password ? "password-error" : undefined
+                  errors.password?.message ? "password-error" : undefined
                 }
                 {...register("password")}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.password && (
+              {errors.password?.message && (
                 <p
                   id="password-error"
                   role="alert"
                   className="text-sm text-destructive"
                 >
-                  {errors.password.message}
+                  {validationT(errors.password.message)}
                 </p>
               )}
             </div>
@@ -138,9 +145,12 @@ export default function SignInForm() {
               <p
                 role="alert"
                 aria-live="polite"
-                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-center text-sm text-destructive"
+                dir="auto"
+                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-start text-sm text-destructive"
               >
-                {serverError}
+                {serverError === "invalidCredentials"
+                  ? t("errors.invalidCredentials")
+                  : commonT("somethingWentWrong")}
               </p>
             )}
           </CardContent>
@@ -161,7 +171,7 @@ export default function SignInForm() {
               )}
             </Button>
 
-            <div className="space-y-4 w-full">
+            <div className="w-full space-y-4">
               <div className="flex items-center gap-4">
                 <div className="h-px flex-1 bg-border" />
 

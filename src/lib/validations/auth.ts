@@ -5,44 +5,44 @@ export const signUpSchema = z
     name: z
       .string()
       .trim()
-      .min(2, {
-        error: "Name must be at least 2 characters",
+      .min(4, {
+        error: "nameMin",
       })
       .max(100, {
-        error: "Name must be less than 100 characters",
+        error: "nameMax",
       }),
 
     email: z
       .email({
-        error: "Please enter a valid email address",
+        error: "emailInvalid",
       })
       .transform((email) => email.trim().toLowerCase()),
 
     password: z
       .string()
-      .min(3, {
-        error: "Password must be at least 8 characters",
+      .min(8, {
+        error: "passwordMin",
       })
       .max(72, {
-        error: "Password must be less than 72 characters",
+        error: "passwordMax",
       }),
 
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
-    error: "Passwords do not match",
+    error: "passwordMismatch",
   });
 
 export const signInSchema = z.object({
   email: z
     .email({
-      error: "Please enter a valid email address",
+      error: "emailInvalid",
     })
     .transform((email) => email.trim().toLowerCase()),
 
   password: z.string().min(1, {
-    error: "Password is required",
+    error: "passwordRequired",
   }),
 });
 

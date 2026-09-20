@@ -1,8 +1,8 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
+import { Circle, CircleCheck, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,15 +27,22 @@ export default function SignUpForm() {
 
   const t = useTranslations("signUpForm");
   const commonT = useTranslations("common");
+  const validationT = useTranslations("validation");
 
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    trigger,
+    control,
+    formState: { errors, touchedFields, isSubmitting },
   } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
+
+    mode: "onBlur",
+    reValidateMode: "onChange",
+
     defaultValues: {
       name: "",
       email: "",
@@ -43,6 +50,13 @@ export default function SignUpForm() {
       confirmPassword: "",
     },
   });
+
+  const password = useWatch({
+    control,
+    name: "password",
+  });
+
+  const passwordMinLengthValid = password.length >= 8;
 
   async function onSubmit(data: SignUpInput) {
     setServerError(null);
@@ -65,7 +79,7 @@ export default function SignUpForm() {
   return (
     <main className="flex min-h-screen w-full items-center justify-center px-4 py-8">
       <Card className="w-full max-w-md rounded-3xl border-border/60 shadow-sm">
-        <CardHeader className="space-y-2 px-6 pb- pt-6 text-center sm:px-8">
+        <CardHeader className="space-y-2 px-6 pt-6 text-center sm:px-8">
           <CardTitle className="text-4xl font-bold tracking-tight">
             {commonT("title")}
           </CardTitle>
@@ -87,19 +101,23 @@ export default function SignUpForm() {
                 autoFocus
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.name ? "true" : "false"}
-                aria-describedby={errors.name ? "name-error" : undefined}
+                aria-invalid={
+                  touchedFields.name && errors.name ? "true" : "false"
+                }
+                aria-describedby={
+                  touchedFields.name && errors.name ? "name-error" : undefined
+                }
                 {...register("name")}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.name && (
+              {touchedFields.name && errors.name?.message && (
                 <p
                   id="name-error"
                   role="alert"
                   className="text-sm text-destructive"
                 >
-                  {errors.name.message}
+                  {validationT(errors.name.message)}
                 </p>
               )}
             </div>
@@ -115,19 +133,25 @@ export default function SignUpForm() {
                 autoComplete="email"
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.email ? "true" : "false"}
-                aria-describedby={errors.email ? "email-error" : undefined}
+                aria-invalid={
+                  touchedFields.email && errors.email ? "true" : "false"
+                }
+                aria-describedby={
+                  touchedFields.email && errors.email
+                    ? "email-error"
+                    : undefined
+                }
                 {...register("email")}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.email && (
+              {touchedFields.email && errors.email?.message && (
                 <p
                   id="email-error"
                   role="alert"
                   className="text-sm text-destructive"
                 >
-                  {errors.email.message}
+                  {validationT(errors.email.message)}
                 </p>
               )}
             </div>
@@ -143,21 +167,52 @@ export default function SignUpForm() {
                 autoComplete="new-password"
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.password ? "true" : "false"}
-                aria-describedby={
-                  errors.password ? "password-error" : undefined
+                aria-invalid={
+                  touchedFields.password && errors.password ? "true" : "false"
                 }
-                {...register("password")}
+                aria-describedby={
+                  touchedFields.password && errors.password
+                    ? "password-requirements password-error"
+                    : "password-requirements"
+                }
+                {...register("password", {
+                  onChange: () => {
+                    if (touchedFields.confirmPassword) {
+                      void trigger("confirmPassword");
+                    }
+                  },
+                })}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.password && (
+              <div
+                id="password-requirements"
+                className="ms-2 text-xs text-muted-foreground"
+              >
+                <p
+                  className={`flex items-center gap-1.5 ${
+                    passwordMinLengthValid
+                      ? "text-green-600"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {passwordMinLengthValid ? (
+                    <CircleCheck className="size-3" aria-hidden="true" />
+                  ) : (
+                    <Circle className="size-3" aria-hidden="true" />
+                  )}
+
+                  {t("password.requirements.minLength")}
+                </p>
+              </div>
+
+              {touchedFields.password && errors.password?.message && (
                 <p
                   id="password-error"
                   role="alert"
                   className="text-sm text-destructive"
                 >
-                  {errors.password.message}
+                  {validationT(errors.password.message)}
                 </p>
               )}
             </div>
@@ -175,23 +230,30 @@ export default function SignUpForm() {
                 autoComplete="new-password"
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.confirmPassword ? "true" : "false"}
+                aria-invalid={
+                  touchedFields.confirmPassword && errors.confirmPassword
+                    ? "true"
+                    : "false"
+                }
                 aria-describedby={
-                  errors.confirmPassword ? "confirm-password-error" : undefined
+                  touchedFields.confirmPassword && errors.confirmPassword
+                    ? "confirm-password-error"
+                    : undefined
                 }
                 {...register("confirmPassword")}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.confirmPassword && (
-                <p
-                  id="confirm-password-error"
-                  role="alert"
-                  className="text-sm text-destructive"
-                >
-                  {errors.confirmPassword.message}
-                </p>
-              )}
+              {touchedFields.confirmPassword &&
+                errors.confirmPassword?.message && (
+                  <p
+                    id="confirm-password-error"
+                    role="alert"
+                    className="text-sm text-destructive"
+                  >
+                    {validationT(errors.confirmPassword.message)}
+                  </p>
+                )}
             </div>
 
             {/* Server Error */}
@@ -199,9 +261,12 @@ export default function SignUpForm() {
               <p
                 role="alert"
                 aria-live="polite"
-                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-center text-sm text-destructive"
+                dir="auto"
+                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-start text-sm text-destructive"
               >
-                {serverError}
+                {serverError === "emailAlreadyExists"
+                  ? t("errors.emailAlreadyExists")
+                  : commonT("somethingWentWrong")}
               </p>
             )}
           </CardContent>
