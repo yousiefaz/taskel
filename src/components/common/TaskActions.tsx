@@ -51,6 +51,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
   const t = useTranslations("taskActions");
   const toastT = useTranslations("toasts");
+  const taskErrorT = useTranslations("taskErrors");
 
   const { id, title, description, status } = task;
 
@@ -64,7 +65,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
   const handleToggleTaskStatus = () => {
     startTransition(async () => {
-      await toggleTaskStatus(id);
+      const result = await toggleTaskStatus(id);
+
+      if (!result.success) {
+        toast.error(taskErrorT(result.code));
+        return;
+      }
 
       toast.success(toastT("taskToggled"));
     });
@@ -75,7 +81,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
     const trimmedDescription = editDescription.trim();
 
     startTransition(async () => {
-      await updateTask(id, trimmedTitle, trimmedDescription);
+      const result = await updateTask(id, trimmedTitle, trimmedDescription);
+
+      if (!result.success) {
+        toast.error(taskErrorT(result.code));
+        return;
+      }
 
       setIsEditDialogOpen(false);
 
@@ -85,7 +96,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
   const handleDeleteClick = () => {
     startTransition(async () => {
-      await deleteTask(id);
+      const result = await deleteTask(id);
+
+      if (!result.success) {
+        toast.error(taskErrorT(result.code));
+        return;
+      }
 
       toast.success(toastT("taskDeleted"));
     });
@@ -126,6 +142,8 @@ export default function TaskActions({ task }: TaskActionsProps) {
       <Dialog
         open={isEditDialogOpen}
         onOpenChange={(open) => {
+          if (isPending) return;
+
           setIsEditDialogOpen(open);
 
           if (open) {
@@ -171,6 +189,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 onChange={(e) => setEditTitle(e.target.value)}
                 dir="auto"
                 className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+                disabled={isPending}
               />
             </div>
 
@@ -186,6 +205,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 onChange={(e) => setEditDescription(e.target.value)}
                 dir="auto"
                 className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+                disabled={isPending}
               />
             </div>
           </div>

@@ -58,6 +58,13 @@
     "deleteBtn": "Delete"
   },
 
+  "taskErrors": {
+    "UNAUTHORIZED": "You are not authorized to perform this action.",
+    "INVALID_TASK_DATA": "Please check your task details and try again.",
+    "TASK_NOT_FOUND": "The task could not be found.",
+    "UNKNOWN_ERROR": "Something went wrong. Please try again."
+  },
+
   "toasts": {
     "taskAdded": "Task added successfully",
     "taskAddFailed": "Failed to add task",

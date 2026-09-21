@@ -40,7 +40,6 @@ export async function generateMetadata({
   return {
     // title: locale === "ar" ? "تاسكل" : "Taskel",
     title: "Taskel",
-
     description:
       locale === "ar" ? "تطبيق لإدارة المهام" : "Task management app",
   };
@@ -61,7 +60,7 @@ export default async function LocaleLayout({
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <div dir={dir} className=" bg-gray-100">
+    <div dir={dir} className="bg-gray-100">
       <DirectionProvider direction={dir}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <TooltipProvider>
@@ -70,7 +69,16 @@ export default async function LocaleLayout({
             <SignOutButton locale={locale} />
 
             {children}
-            <Toaster position="bottom-right" />
+
+            <Toaster
+              position={dir === "rtl" ? "bottom-left" : "bottom-right"}
+              dir={dir}
+              toastOptions={{
+                classNames: {
+                  toast: "text-start",
+                },
+              }}
+            />
           </TooltipProvider>
         </NextIntlClientProvider>
       </DirectionProvider>

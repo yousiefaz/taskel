@@ -33,6 +33,7 @@ export default function TaskForm() {
 
   const t = useTranslations("taskForm");
   const toastT = useTranslations("toasts");
+  const taskErrorT = useTranslations("taskErrors");
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -49,6 +50,7 @@ export default function TaskForm() {
     control: form.control,
     name: "title",
   });
+
   const isDisabled = !title?.trim();
 
   const resetForm = () => {
@@ -60,16 +62,17 @@ export default function TaskForm() {
     const trimmedDescription = data.description.trim();
 
     startTransition(async () => {
-      try {
-        await createTask(trimmedTitle, trimmedDescription);
+      const result = await createTask(trimmedTitle, trimmedDescription);
 
-        resetForm();
-        setIsAddDialogOpen(false);
-
-        toast.success(toastT("taskAdded"));
-      } catch {
-        toast.error(toastT("taskAddFailed"));
+      if (!result.success) {
+        toast.error(taskErrorT(result.code));
+        return;
       }
+
+      resetForm();
+      setIsAddDialogOpen(false);
+
+      toast.success(toastT("taskAdded"));
     });
   };
 
@@ -89,6 +92,7 @@ export default function TaskForm() {
       <DialogTrigger asChild>
         <Button size="lg" className="mx-auto flex w-full gap-2 md:w-50">
           <CirclePlus className="size-5 shrink-0" />
+
           <span className="truncate">{t("triggerButton")}</span>
         </Button>
       </DialogTrigger>
