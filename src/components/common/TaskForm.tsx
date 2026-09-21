@@ -113,41 +113,41 @@ export default function TaskForm() {
 
         <form
           onSubmit={form.handleSubmit(handleAddTask)}
-          className="space-y-4 py-2"
+          className="w-full min-w-0 max-w-full space-y-4 py-2"
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
             <Label htmlFor="task-title">{t("titleLabel")}</Label>
 
             <Input
               id="task-title"
               placeholder={t("titlePlaceholder")}
               dir="auto"
-              className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+              className="w-full min-w-0 max-w-full text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
               {...form.register("title")}
             />
 
             {form.formState.errors.title && (
-              <p className="text-sm text-destructive">
+              <p className="max-w-full text-sm text-destructive">
                 {form.formState.errors.title.message}
               </p>
             )}
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
             <Label htmlFor="task-desc">{t("descriptionLabel")}</Label>
 
             <Textarea
               id="task-desc"
               placeholder={t("descriptionPlaceholder")}
               dir="auto"
-              className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+              className="h-30 max-h-[50vh] w-full min-w-0 max-w-full resize-none overflow-y-hidden overflow-x-hidden wrap-break-word whitespace-pre-wrap text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
               {...form.register("description")}
             />
 
             {form.formState.errors.description && (
-              <p className="text-sm text-destructive">
+              <p className="max-w-full text-sm text-destructive">
                 {form.formState.errors.description.message}
               </p>
             )}

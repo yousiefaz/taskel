@@ -6,9 +6,13 @@ import { TaskStatus } from "../../generated/prisma/client";
 
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { taskSchema } from "@/lib/validations/task";
+import { taskIdSchema, taskSchema } from "@/lib/validations/task";
 import type { ActionResult } from "@/types/action.types";
+import { UnauthorizedError } from "@/lib/errors";
 
+const TASKS_PATH = "/[locale]/tasks";
+
+// Create task
 export async function createTask(
   title: string,
   description: string,
@@ -39,13 +43,13 @@ export async function createTask(
       },
     });
 
-    revalidatePath("/", "layout");
+    revalidatePath(TASKS_PATH, "page");
 
     return {
       success: true,
     };
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
+    if (error instanceof UnauthorizedError) {
       return {
         success: false,
         code: "UNAUTHORIZED",
@@ -55,7 +59,9 @@ export async function createTask(
     throw error;
   }
 }
+// Create task
 
+// Update task
 export async function updateTask(
   id: string,
   title: string,
@@ -63,6 +69,17 @@ export async function updateTask(
 ): Promise<ActionResult> {
   try {
     const user = await requireUser();
+
+    const idResult = taskIdSchema.safeParse(id);
+
+    if (!idResult.success) {
+      return {
+        success: false,
+        code: "TASK_NOT_FOUND",
+      };
+    }
+
+    const validId = idResult.data;
 
     const result = taskSchema.safeParse({
       title,
@@ -80,7 +97,7 @@ export async function updateTask(
 
     const updateResult = await prisma.task.updateMany({
       where: {
-        id,
+        id: validId,
         userId: user.id,
       },
       data: {
@@ -96,13 +113,13 @@ export async function updateTask(
       };
     }
 
-    revalidatePath("/", "layout");
+    revalidatePath(TASKS_PATH, "page");
 
     return {
       success: true,
     };
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
+    if (error instanceof UnauthorizedError) {
       return {
         success: false,
         code: "UNAUTHORIZED",
@@ -112,14 +129,27 @@ export async function updateTask(
     throw error;
   }
 }
+// Update task
 
+// Toggle task status
 export async function toggleTaskStatus(id: string): Promise<ActionResult> {
   try {
     const user = await requireUser();
 
+    const idResult = taskIdSchema.safeParse(id);
+
+    if (!idResult.success) {
+      return {
+        success: false,
+        code: "TASK_NOT_FOUND",
+      };
+    }
+
+    const validId = idResult.data;
+
     const task = await prisma.task.findFirst({
       where: {
-        id,
+        id: validId,
         userId: user.id,
       },
       select: {
@@ -136,7 +166,7 @@ export async function toggleTaskStatus(id: string): Promise<ActionResult> {
 
     await prisma.task.updateMany({
       where: {
-        id,
+        id: validId,
         userId: user.id,
       },
       data: {
@@ -147,13 +177,13 @@ export async function toggleTaskStatus(id: string): Promise<ActionResult> {
       },
     });
 
-    revalidatePath("/", "layout");
+    revalidatePath(TASKS_PATH, "page");
 
     return {
       success: true,
     };
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
+    if (error instanceof UnauthorizedError) {
       return {
         success: false,
         code: "UNAUTHORIZED",
@@ -163,14 +193,27 @@ export async function toggleTaskStatus(id: string): Promise<ActionResult> {
     throw error;
   }
 }
+// Toggle task status
 
+// Delete task
 export async function deleteTask(id: string): Promise<ActionResult> {
   try {
     const user = await requireUser();
 
+    const idResult = taskIdSchema.safeParse(id);
+
+    if (!idResult.success) {
+      return {
+        success: false,
+        code: "TASK_NOT_FOUND",
+      };
+    }
+
+    const validId = idResult.data;
+
     const result = await prisma.task.deleteMany({
       where: {
-        id,
+        id: validId,
         userId: user.id,
       },
     });
@@ -182,13 +225,13 @@ export async function deleteTask(id: string): Promise<ActionResult> {
       };
     }
 
-    revalidatePath("/", "layout");
+    revalidatePath(TASKS_PATH, "page");
 
     return {
       success: true,
     };
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
+    if (error instanceof UnauthorizedError) {
       return {
         success: false,
         code: "UNAUTHORIZED",
@@ -198,3 +241,4 @@ export async function deleteTask(id: string): Promise<ActionResult> {
     throw error;
   }
 }
+// Delete task

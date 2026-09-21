@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const taskIdSchema = z.string().trim().min(1);
+
 export const taskSchema = z.object({
   title: z
     .string()
@@ -15,5 +17,7 @@ export const taskSchema = z.object({
     error: "Description must be less than 1000 characters",
   }),
 });
+
+// export type TaskIdInput = z.infer<typeof taskIdSchema>;
 
 export type TaskInput = z.infer<typeof taskSchema>;

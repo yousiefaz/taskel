@@ -1,5 +1,7 @@
 import { auth } from "@/auth";
 
+import { UnauthorizedError } from "@/lib/errors";
+
 export async function getCurrentUser() {
   const session = await auth();
 
@@ -8,8 +10,10 @@ export async function getCurrentUser() {
 
 export async function requireUser() {
   const user = await getCurrentUser();
+
   if (!user) {
-    throw new Error("Unauthorized");
+    throw new UnauthorizedError();
   }
+
   return user;
 }
