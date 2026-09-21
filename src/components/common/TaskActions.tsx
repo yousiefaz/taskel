@@ -1,9 +1,26 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ArrowRightLeft, CircleCheck, Edit, Trash2 } from "lucide-react";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ArrowRightLeft,
+  CircleCheck,
+  Edit,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import {
+  deleteTask,
+  toggleTaskStatus,
+  updateTask,
+} from "@/actions/task.actions";
+import { taskSchema, type TaskInput } from "@/lib/validations/task";
+import type { PendingAction } from "@/types/action.types";
+import type { Task } from "@/types/task.types";
 
 import {
   AlertDialog,
@@ -33,14 +50,6 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-import {
-  deleteTask,
-  toggleTaskStatus,
-  updateTask,
-} from "@/actions/task.actions";
-
-import type { Task } from "@/types/task.types";
-
 interface TaskActionsProps {
   task: Task;
 }
@@ -55,63 +64,118 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
   const { id, title, description, status } = task;
 
-  const [editTitle, setEditTitle] = useState(title);
-  const [editDescription, setEditDescription] = useState(description);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const [isPending, startTransition] = useTransition();
+  const [pendingAction, setPendingAction] = useState<PendingAction>(null);
 
-  const isDisabled = !editTitle.trim();
+  const [, startTransition] = useTransition();
 
-  const handleToggleTaskStatus = () => {
-    startTransition(async () => {
-      const result = await toggleTaskStatus(id);
+  const editForm = useForm<TaskInput>({
+    resolver: zodResolver(taskSchema),
+    mode: "onChange",
+    defaultValues: {
+      title,
+      description,
+    },
+  });
 
-      if (!result.success) {
-        toast.error(taskErrorT(result.code));
-        return;
-      }
+  const isActionPending = pendingAction !== null;
+  const isTogglePending = pendingAction === "toggle";
+  const isEditPending = pendingAction === "edit";
+  const isDeletePending = pendingAction === "delete";
 
-      toast.success(toastT("taskToggled"));
+  const resetEditForm = () => {
+    editForm.reset({
+      title,
+      description,
     });
   };
 
-  const handleEditClick = () => {
-    const trimmedTitle = editTitle.trim();
-    const trimmedDescription = editDescription.trim();
+  const handleToggleTaskStatus = () => {
+    if (isActionPending) return;
+
+    setPendingAction("toggle");
 
     startTransition(async () => {
-      const result = await updateTask(id, trimmedTitle, trimmedDescription);
+      try {
+        const result = await toggleTaskStatus(id);
 
-      if (!result.success) {
-        toast.error(taskErrorT(result.code));
-        return;
+        if (!result.success) {
+          toast.error(taskErrorT(result.code));
+          return;
+        }
+
+        toast.success(toastT("taskToggled"));
+      } finally {
+        setPendingAction(null);
       }
+    });
+  };
 
-      setIsEditDialogOpen(false);
+  const handleEditSubmit = (data: TaskInput) => {
+    if (isActionPending) return;
 
-      toast.success(toastT("taskEdited"));
+    const trimmedTitle = data.title.trim();
+    const trimmedDescription = data.description.trim();
+
+    setPendingAction("edit");
+
+    startTransition(async () => {
+      try {
+        const result = await updateTask(id, trimmedTitle, trimmedDescription);
+
+        if (!result.success) {
+          toast.error(taskErrorT(result.code));
+          return;
+        }
+
+        setIsEditDialogOpen(false);
+
+        editForm.reset({
+          title: trimmedTitle,
+          description: trimmedDescription,
+        });
+
+        toast.success(toastT("taskEdited"));
+      } finally {
+        setPendingAction(null);
+      }
     });
   };
 
   const handleDeleteClick = () => {
+    if (isActionPending) return;
+
+    setPendingAction("delete");
+
     startTransition(async () => {
-      const result = await deleteTask(id);
+      try {
+        const result = await deleteTask(id);
 
-      if (!result.success) {
-        toast.error(taskErrorT(result.code));
-        return;
+        if (!result.success) {
+          toast.error(taskErrorT(result.code));
+          return;
+        }
+
+        setIsDeleteDialogOpen(false);
+
+        toast.success(toastT("taskDeleted"));
+      } finally {
+        setPendingAction(null);
       }
-
-      toast.success(toastT("taskDeleted"));
     });
   };
 
   const iconButtonProps = {
+    type: "button" as const,
     variant: "outline" as const,
     size: "icon" as const,
     className: "size-9 rounded-full md:size-10",
   };
+
+  const titleError = editForm.formState.errors.title;
+  const descriptionError = editForm.formState.errors.description;
 
   return (
     <div className="flex items-center gap-2 md:gap-3">
@@ -123,12 +187,22 @@ export default function TaskActions({ task }: TaskActionsProps) {
               {...iconButtonProps}
               variant={status === "completed" ? "default" : "outline"}
               onClick={handleToggleTaskStatus}
-              disabled={isPending}
+              disabled={isActionPending}
+              aria-busy={isTogglePending}
+              aria-label={t("toggleStatusBtn")}
             >
-              {status === "completed" ? (
-                <CircleCheck className="size-4 md:size-5" />
+              {isTogglePending ? (
+                <Loader2
+                  className="size-4 animate-spin md:size-5"
+                  aria-hidden="true"
+                />
+              ) : status === "completed" ? (
+                <CircleCheck className="size-4 md:size-5" aria-hidden="true" />
               ) : (
-                <ArrowRightLeft className="size-4 md:size-5" />
+                <ArrowRightLeft
+                  className="size-4 md:size-5"
+                  aria-hidden="true"
+                />
               )}
             </Button>
           </span>
@@ -142,21 +216,25 @@ export default function TaskActions({ task }: TaskActionsProps) {
       <Dialog
         open={isEditDialogOpen}
         onOpenChange={(open) => {
-          if (isPending) return;
+          if (isActionPending) return;
 
           setIsEditDialogOpen(open);
 
           if (open) {
-            setEditTitle(title);
-            setEditDescription(description);
+            resetEditForm();
           }
         }}
       >
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button {...iconButtonProps} disabled={isPending}>
-                <Edit className="size-4 md:size-5" />
+              <Button
+                {...iconButtonProps}
+                disabled={isActionPending}
+                aria-busy={isEditPending}
+                aria-label={t("editBtn")}
+              >
+                <Edit className="size-4 md:size-5" aria-hidden="true" />
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
@@ -178,82 +256,123 @@ export default function TaskActions({ task }: TaskActionsProps) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex flex-col gap-4 py-2">
-            <div className="flex flex-col gap-2">
+          <form
+            onSubmit={editForm.handleSubmit(handleEditSubmit)}
+            className="w-full min-w-0 max-w-full space-y-4 py-2"
+          >
+            {/* Title */}
+            <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
               <Label htmlFor={`edit-task-title-${id}`}>{t("titleLabel")}</Label>
 
               <Input
                 id={`edit-task-title-${id}`}
-                value={editTitle}
                 placeholder={t("titlePlaceholder")}
-                onChange={(e) => setEditTitle(e.target.value)}
                 dir="auto"
-                className="text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
-                disabled={isPending}
+                className="w-full min-w-0 max-w-full text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+                disabled={isEditPending}
+                aria-invalid={!!titleError}
+                aria-describedby={
+                  titleError ? `edit-task-title-error-${id}` : undefined
+                }
+                {...editForm.register("title")}
               />
+
+              {titleError && (
+                <p
+                  id={`edit-task-title-error-${id}`}
+                  className="max-w-full text-sm text-destructive"
+                >
+                  {titleError.message}
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-2">
+            {/* Description */}
+            <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
               <Label htmlFor={`edit-task-desc-${id}`}>
                 {t("descriptionLabel")}
               </Label>
 
               <Textarea
                 id={`edit-task-desc-${id}`}
-                value={editDescription}
                 placeholder={t("descriptionPlaceholder")}
-                onChange={(e) => setEditDescription(e.target.value)}
                 dir="auto"
-                className="min-h-28 resize-none text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
-                disabled={isPending}
+                className="min-h-28 w-full min-w-0 max-w-full resize-none overflow-x-hidden wrap-break-word whitespace-pre-wrap text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+                disabled={isEditPending}
+                aria-invalid={!!descriptionError}
+                aria-describedby={
+                  descriptionError ? `edit-task-desc-error-${id}` : undefined
+                }
+                {...editForm.register("description")}
               />
-            </div>
-          </div>
 
-          <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
-            <DialogClose asChild>
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                {t("cancelBtn")}
-              </Button>
-            </DialogClose>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="w-full sm:w-auto">
-                  <Button
-                    onClick={handleEditClick}
-                    disabled={isDisabled || isPending}
-                    className="w-full sm:w-auto"
-                  >
-                    {t("saveBtn")}
-                  </Button>
-                </span>
-              </TooltipTrigger>
-
-              {isDisabled && (
-                <TooltipContent>{t("saveBtnTooltip")}</TooltipContent>
+              {descriptionError && (
+                <p
+                  id={`edit-task-desc-error-${id}`}
+                  className="max-w-full text-sm text-destructive"
+                >
+                  {descriptionError.message}
+                </p>
               )}
-            </Tooltip>
-          </DialogFooter>
+            </div>
+
+            {/* Actions */}
+            <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                  disabled={isActionPending}
+                >
+                  {t("cancelBtn")}
+                </Button>
+              </DialogClose>
+
+              <Button
+                type="submit"
+                disabled={isEditPending || !editForm.formState.isValid}
+                className="w-full sm:w-auto"
+                aria-busy={isEditPending}
+              >
+                {isEditPending ? (
+                  <>
+                    <Loader2
+                      className="size-4 animate-spin"
+                      aria-hidden="true"
+                    />
+                    {t("saving")}
+                  </>
+                ) : (
+                  t("saveBtn")
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
       {/* Edit task */}
 
       {/* Delete task */}
-      <AlertDialog>
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={(open) => {
+          if (isActionPending) return;
+
+          setIsDeleteDialogOpen(open);
+        }}
+      >
         <Tooltip>
           <TooltipTrigger asChild>
             <AlertDialogTrigger asChild>
               <Button
                 {...iconButtonProps}
                 variant="destructive"
-                disabled={isPending}
+                disabled={isActionPending}
+                aria-busy={isDeletePending}
+                aria-label={t("removeBtn")}
               >
-                <Trash2 className="size-4 md:size-5" />
+                <Trash2 className="size-4 md:size-5" aria-hidden="true" />
               </Button>
             </AlertDialogTrigger>
           </TooltipTrigger>
@@ -267,7 +386,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
         >
           <AlertDialogHeader className="text-center sm:text-start">
             <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-              <Trash2 className="size-5" />
+              <Trash2 className="size-7" aria-hidden="true" />
             </AlertDialogMedia>
 
             <AlertDialogTitle className="text-lg md:text-xl">
@@ -283,18 +402,29 @@ export default function TaskActions({ task }: TaskActionsProps) {
             <AlertDialogCancel
               variant="outline"
               className="w-full sm:w-auto"
-              disabled={isPending}
+              disabled={isActionPending}
             >
               {t("cancelBtn")}
             </AlertDialogCancel>
 
             <AlertDialogAction
               variant="destructive"
-              onClick={handleDeleteClick}
-              disabled={isPending}
+              onClick={(event) => {
+                event.preventDefault();
+                handleDeleteClick();
+              }}
+              disabled={isActionPending}
               className="w-full sm:w-auto"
+              aria-busy={isDeletePending}
             >
-              {t("deleteBtn")}
+              {isDeletePending ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                  {t("deleting")}
+                </>
+              ) : (
+                t("deleteBtn")
+              )}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

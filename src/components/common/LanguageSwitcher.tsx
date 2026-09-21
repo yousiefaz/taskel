@@ -28,7 +28,12 @@ export default function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="default" size="sm" className="gap-2">
+        <Button
+          variant="default"
+          aria-label={t("label")}
+          size="sm"
+          className="gap-2"
+        >
           <Languages className="size-4" />
         </Button>
       </DropdownMenuTrigger>

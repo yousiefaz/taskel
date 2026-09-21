@@ -1,17 +1,24 @@
 {
   "common": {
     "title": "Taskel",
-    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "loading": "جاري التحميل..."
   },
 
   "language": {
     "switch": "تغيير اللغة",
-    "ar": "العربية",
-    "en": "English"
+    "label": "تغيير اللغة",
+    "en": "English",
+    "ar": "العربية"
   },
 
   "taskList": {
-    "noTasks": "لا توجد مهام حالياً"
+    "noTasks": "لا توجد مهام حالياً",
+    "noActiveTasks": "لا توجد مهام نشطة",
+    "noCompletedTasks": "لا توجد مهام مكتملة",
+    "errorTitle": "حدث خطأ ما",
+    "errorDescription": "تعذر تحميل مهامك. حاول مرة أخرى.",
+    "tryAgain": "حاول مرة أخرى"
   },
 
   "taskStatus": {
@@ -29,7 +36,8 @@
     "descriptionPlaceholder": "اكتب وصف المهمة",
     "cancelBtn": "إلغاء",
     "saveBtnTooltip": "أدخل البيانات اللازمة",
-    "saveBtn": "إضافة"
+    "saveBtn": "إضافة",
+    "adding": "جارٍ الإضافة..."
   },
 
   "taskFilter": {
@@ -42,6 +50,9 @@
     "toggleStatusBtn": "تغيير الحالة",
     "editBtn": "تعديل المهمة",
     "removeBtn": "حذف المهمة",
+
+    "saving": "جارٍ الحفظ...",
+    "deleting": "جارٍ الحذف...",
 
     "dialogTitle": "تعديل المهمة",
     "dialogDescription": "قم بتعديل بيانات المهمة ثم اضغط حفظ التعديلات.",

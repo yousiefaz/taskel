@@ -18,6 +18,4 @@ export const taskSchema = z.object({
   }),
 });
 
-// export type TaskIdInput = z.infer<typeof taskIdSchema>;
-
 export type TaskInput = z.infer<typeof taskSchema>;

@@ -1,3 +1,5 @@
+export type PendingAction = "toggle" | "edit" | "delete" | null;
+
 export type ActionErrorCode =
   | "UNAUTHORIZED"
   | "INVALID_TASK_DATA"

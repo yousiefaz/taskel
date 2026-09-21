@@ -28,14 +28,16 @@ export default function TaskList({ tasks }: TaskListProps) {
   const commonT = useTranslations("common");
 
   const activeTasks = tasks.filter((task) => task.status === "active");
-
   const completedTasks = tasks.filter((task) => task.status === "completed");
 
-  const renderTasks = (taskList: Task[]) => {
+  const renderTasks = (
+    taskList: Task[],
+    emptyMessage: "noTasks" | "noActiveTasks" | "noCompletedTasks",
+  ) => {
     if (taskList.length === 0) {
       return (
         <p className="flex justify-center py-6 text-center text-base text-muted-foreground md:text-xl">
-          {t("noTasks")}
+          {t(emptyMessage)}
         </p>
       );
     }
@@ -80,15 +82,15 @@ export default function TaskList({ tasks }: TaskListProps) {
 
             <ScrollArea className="h-87 w-full md:h-106">
               <TabsContent value="all" className="px-4">
-                {renderTasks(tasks)}
+                {renderTasks(tasks, "noTasks")}
               </TabsContent>
 
               <TabsContent value="active" className="px-1 md:px-4">
-                {renderTasks(activeTasks)}
+                {renderTasks(activeTasks, "noActiveTasks")}
               </TabsContent>
 
               <TabsContent value="completed" className="px-1 md:px-4">
-                {renderTasks(completedTasks)}
+                {renderTasks(completedTasks, "noCompletedTasks")}
               </TabsContent>
             </ScrollArea>
           </Tabs>

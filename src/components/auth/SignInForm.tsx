@@ -144,7 +144,6 @@ export default function SignInForm() {
             {serverError && (
               <p
                 role="alert"
-                aria-live="polite"
                 dir="auto"
                 className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-start text-sm text-destructive"
               >
@@ -159,6 +158,7 @@ export default function SignInForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
+              aria-busy={isSubmitting}
               className="h-11 w-full rounded-xl font-semibold"
             >
               {isSubmitting ? (
@@ -182,7 +182,7 @@ export default function SignInForm() {
                 <div className="h-px flex-1 bg-border" />
               </div>
 
-              <GoogleButton />
+              <GoogleButton disabled={isSubmitting} />
             </div>
 
             <p className="text-center text-sm text-muted-foreground">

@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -122,13 +122,20 @@ export default function TaskForm() {
               id="task-title"
               placeholder={t("titlePlaceholder")}
               dir="auto"
+              aria-invalid={!!form.formState.errors.title}
+              aria-describedby={
+                form.formState.errors.title ? "task-title-error" : undefined
+              }
               className="w-full min-w-0 max-w-full text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
               {...form.register("title")}
             />
 
             {form.formState.errors.title && (
-              <p className="max-w-full text-sm text-destructive">
+              <p
+                id="task-title-error"
+                className="max-w-full text-sm text-destructive"
+              >
                 {form.formState.errors.title.message}
               </p>
             )}
@@ -141,13 +148,22 @@ export default function TaskForm() {
               id="task-desc"
               placeholder={t("descriptionPlaceholder")}
               dir="auto"
+              aria-invalid={!!form.formState.errors.description}
+              aria-describedby={
+                form.formState.errors.description
+                  ? "task-desc-error"
+                  : undefined
+              }
               className="h-30 max-h-[50vh] w-full min-w-0 max-w-full resize-none overflow-y-hidden overflow-x-hidden wrap-break-word whitespace-pre-wrap text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
               {...form.register("description")}
             />
 
             {form.formState.errors.description && (
-              <p className="max-w-full text-sm text-destructive">
+              <p
+                id="task-desc-error"
+                className="max-w-full text-sm text-destructive"
+              >
                 {form.formState.errors.description.message}
               </p>
             )}
@@ -172,13 +188,24 @@ export default function TaskForm() {
                     type="submit"
                     disabled={isDisabled || isPending}
                     className="w-full sm:w-auto"
+                    aria-busy={isPending}
                   >
-                    {t("saveBtn")}
+                    {isPending ? (
+                      <>
+                        <Loader2
+                          className="size-4 animate-spin"
+                          aria-hidden="true"
+                        />
+                        {t("adding")}
+                      </>
+                    ) : (
+                      t("saveBtn")
+                    )}
                   </Button>
                 </span>
               </TooltipTrigger>
 
-              {isDisabled && (
+              {isDisabled && !isPending && (
                 <TooltipContent>{t("saveBtnTooltip")}</TooltipContent>
               )}
             </Tooltip>

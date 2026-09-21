@@ -9,7 +9,7 @@ export default async function SignOutButton({ locale }: SignOutButtonProps) {
   const session = await auth();
 
   if (!session) {
-    return null;
+    return null;  
   }
 
   return (

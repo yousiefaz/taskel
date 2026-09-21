@@ -38,7 +38,6 @@ export async function generateMetadata({
   }
 
   return {
-    // title: locale === "ar" ? "تاسكل" : "Taskel",
     title: "Taskel",
     description:
       locale === "ar" ? "تطبيق لإدارة المهام" : "Task management app",

@@ -1,17 +1,24 @@
 {
   "common": {
     "title": "Taskel",
-    "somethingWentWrong": "Something went wrong. Please try again."
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "loading": "Loading..."
   },
 
   "language": {
     "switch": "Switch Language",
-    "ar": "Arabic",
-    "en": "English"
+    "label": "Change language",
+    "en": "English",
+    "ar": "Arabic"
   },
 
   "taskList": {
-    "noTasks": "No tasks available"
+    "noTasks": "No tasks available",
+    "noActiveTasks": "No active tasks",
+    "noCompletedTasks": "No completed tasks",
+    "errorTitle": "Something went wrong",
+    "errorDescription": "We couldn't load your tasks. Please try again.",
+    "tryAgain": "Try again"
   },
 
   "taskStatus": {
@@ -29,7 +36,8 @@
     "descriptionPlaceholder": "Enter task description...",
     "cancelBtn": "Cancel",
     "saveBtnTooltip": "Enter required data",
-    "saveBtn": "Add"
+    "saveBtn": "Add",
+    "adding": "Adding..."
   },
 
   "taskFilter": {
@@ -42,6 +50,9 @@
     "toggleStatusBtn": "Toggle status",
     "editBtn": "Edit task",
     "removeBtn": "Remove task",
+
+    "saving": "Saving...",
+    "deleting": "Deleting...",
 
     "dialogTitle": "Edit Task",
     "dialogDescription": "Update the task details and click save changes.",

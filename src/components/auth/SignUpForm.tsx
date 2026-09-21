@@ -260,7 +260,6 @@ export default function SignUpForm() {
             {serverError && (
               <p
                 role="alert"
-                aria-live="polite"
                 dir="auto"
                 className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-start text-sm text-destructive"
               >
@@ -275,6 +274,7 @@ export default function SignUpForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
+              aria-busy={isSubmitting}
               className="h-11 w-full rounded-xl font-semibold"
             >
               {isSubmitting ? (
@@ -287,7 +287,7 @@ export default function SignUpForm() {
               )}
             </Button>
 
-            <div className="space-y-4 w-full">
+            <div className="w-full space-y-4">
               <div className="flex items-center gap-4">
                 <div className="h-px flex-1 bg-border" />
 
@@ -298,7 +298,7 @@ export default function SignUpForm() {
                 <div className="h-px flex-1 bg-border" />
               </div>
 
-              <GoogleButton />
+              <GoogleButton disabled={isSubmitting} />
             </div>
 
             <p className="text-center text-sm text-muted-foreground">

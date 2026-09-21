@@ -7,13 +7,19 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 
-export default function GoogleButton() {
+interface GoogleButtonProps {
+  disabled?: boolean;
+}
+
+export default function GoogleButton({ disabled = false }: GoogleButtonProps) {
   const locale = useLocale();
   const t = useTranslations("googleAuth");
 
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleGoogleSignIn() {
+    if (disabled || isLoading) return;
+
     setIsLoading(true);
 
     try {
@@ -30,7 +36,8 @@ export default function GoogleButton() {
       type="button"
       variant="outline"
       className="h-11 w-full rounded-xl font-semibold"
-      disabled={isLoading}
+      disabled={disabled || isLoading}
+      aria-busy={isLoading}
       onClick={handleGoogleSignIn}
     >
       {isLoading ? (
@@ -58,6 +65,7 @@ export default function GoogleButton() {
               d="M12 6.13c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.17 14.63 2.25 12 2.25a9.75 9.75 0 0 0-8.71 5.38l3.25 2.53c.77-2.31 2.92-4.03 5.46-4.03Z"
             />
           </svg>
+
           {t("continueWithGoogle")}
         </>
       )}
