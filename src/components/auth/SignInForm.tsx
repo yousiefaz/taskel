@@ -34,7 +34,7 @@ export default function SignInForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, touchedFields, isSubmitting },
   } = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
 
@@ -91,15 +91,19 @@ export default function SignInForm() {
                 autoFocus
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.email?.message ? "true" : "false"}
+                aria-invalid={
+                  touchedFields.email && errors.email ? "true" : "false"
+                }
                 aria-describedby={
-                  errors.email?.message ? "email-error" : undefined
+                  touchedFields.email && errors.email?.message
+                    ? "email-error"
+                    : undefined
                 }
                 {...register("email")}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.email?.message && (
+              {touchedFields.email && errors.email?.message && (
                 <p
                   id="email-error"
                   role="alert"
@@ -121,15 +125,19 @@ export default function SignInForm() {
                 autoComplete="current-password"
                 disabled={isSubmitting}
                 dir="auto"
-                aria-invalid={errors.password?.message ? "true" : "false"}
+                aria-invalid={
+                  touchedFields.password && errors.password ? "true" : "false"
+                }
                 aria-describedby={
-                  errors.password?.message ? "password-error" : undefined
+                  touchedFields.password && errors.password?.message
+                    ? "password-error"
+                    : undefined
                 }
                 {...register("password")}
                 className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
               />
 
-              {errors.password?.message && (
+              {touchedFields.password && errors.password?.message && (
                 <p
                   id="password-error"
                   role="alert"

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowRightLeft,
   CircleCheck,
@@ -12,6 +11,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   deleteTask,
@@ -34,6 +34,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 import {
   Dialog,
   DialogClose,
@@ -44,11 +45,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TaskActionsProps {
   task: Task;
@@ -65,6 +71,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
   const { id, title, description, status } = task;
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
@@ -76,9 +83,16 @@ export default function TaskActions({ task }: TaskActionsProps) {
     mode: "onChange",
     defaultValues: {
       title,
-      description,
+      description: description ?? "",
     },
   });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = editForm;
 
   const isActionPending = pendingAction !== null;
   const isTogglePending = pendingAction === "toggle";
@@ -86,9 +100,9 @@ export default function TaskActions({ task }: TaskActionsProps) {
   const isDeletePending = pendingAction === "delete";
 
   const resetEditForm = () => {
-    editForm.reset({
+    reset({
       title,
-      description,
+      description: description ?? "",
     });
   };
 
@@ -107,6 +121,8 @@ export default function TaskActions({ task }: TaskActionsProps) {
         }
 
         toast.success(toastT("taskToggled"));
+      } catch {
+        toast.error(toastT("unknownError"));
       } finally {
         setPendingAction(null);
       }
@@ -132,19 +148,21 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
         setIsEditDialogOpen(false);
 
-        editForm.reset({
+        reset({
           title: trimmedTitle,
           description: trimmedDescription,
         });
 
         toast.success(toastT("taskEdited"));
+      } catch {
+        toast.error(toastT("unknownError"));
       } finally {
         setPendingAction(null);
       }
     });
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteTask = () => {
     if (isActionPending) return;
 
     setPendingAction("delete");
@@ -161,6 +179,8 @@ export default function TaskActions({ task }: TaskActionsProps) {
         setIsDeleteDialogOpen(false);
 
         toast.success(toastT("taskDeleted"));
+      } catch {
+        toast.error(toastT("unknownError"));
       } finally {
         setPendingAction(null);
       }
@@ -174,15 +194,12 @@ export default function TaskActions({ task }: TaskActionsProps) {
     className: "size-9 rounded-full md:size-10",
   };
 
-  const titleError = editForm.formState.errors.title;
-  const descriptionError = editForm.formState.errors.description;
-
   return (
     <div className="flex items-center gap-2 md:gap-3">
-      {/* Toggle task status */}
+      {/* Toggle */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <span>
+          <span className="inline-flex">
             <Button
               {...iconButtonProps}
               variant={status === "completed" ? "default" : "outline"}
@@ -210,9 +227,8 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
         <TooltipContent>{t("toggleStatusBtn")}</TooltipContent>
       </Tooltip>
-      {/* Toggle task status */}
 
-      {/* Edit task */}
+      {/* Edit */}
       <Dialog
         open={isEditDialogOpen}
         onOpenChange={(open) => {
@@ -228,14 +244,16 @@ export default function TaskActions({ task }: TaskActionsProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
-              <Button
-                {...iconButtonProps}
-                disabled={isActionPending}
-                aria-busy={isEditPending}
-                aria-label={t("editBtn")}
-              >
-                <Edit className="size-4 md:size-5" aria-hidden="true" />
-              </Button>
+              <span className="inline-flex">
+                <Button
+                  {...iconButtonProps}
+                  disabled={isActionPending}
+                  aria-busy={isEditPending}
+                  aria-label={t("editBtn")}
+                >
+                  <Edit className="size-4 md:size-5" aria-hidden="true" />
+                </Button>
+              </span>
             </DialogTrigger>
           </TooltipTrigger>
 
@@ -247,7 +265,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
           dir={direction}
         >
           <DialogHeader className="space-y-2 text-center sm:text-start">
-            <DialogTitle className="text-start text-lg md:text-xl">
+            <DialogTitle className="text-lg md:text-xl">
               {t("dialogTitle")}
             </DialogTitle>
 
@@ -257,10 +275,10 @@ export default function TaskActions({ task }: TaskActionsProps) {
           </DialogHeader>
 
           <form
-            onSubmit={editForm.handleSubmit(handleEditSubmit)}
+            onSubmit={handleSubmit(handleEditSubmit)}
             className="w-full min-w-0 max-w-full space-y-4 py-2"
+            noValidate
           >
-            {/* Title */}
             <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
               <Label htmlFor={`edit-task-title-${id}`}>{t("titleLabel")}</Label>
 
@@ -268,55 +286,57 @@ export default function TaskActions({ task }: TaskActionsProps) {
                 id={`edit-task-title-${id}`}
                 placeholder={t("titlePlaceholder")}
                 dir="auto"
-                className="w-full min-w-0 max-w-full text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
                 disabled={isEditPending}
-                aria-invalid={!!titleError}
+                aria-invalid={!!errors.title}
                 aria-describedby={
-                  titleError ? `edit-task-title-error-${id}` : undefined
+                  errors.title ? `edit-task-title-error-${id}` : undefined
                 }
-                {...editForm.register("title")}
+                className="w-full min-w-0 max-w-full text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+                {...register("title")}
               />
 
-              {titleError && (
+              {errors.title?.message && (
                 <p
                   id={`edit-task-title-error-${id}`}
+                  role="alert"
                   className="max-w-full text-sm text-destructive"
                 >
-                  {titleError.message}
+                  {taskErrorT(errors.title.message)}
                 </p>
               )}
             </div>
 
-            {/* Description */}
             <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
-              <Label htmlFor={`edit-task-desc-${id}`}>
+              <Label htmlFor={`edit-task-description-${id}`}>
                 {t("descriptionLabel")}
               </Label>
 
               <Textarea
-                id={`edit-task-desc-${id}`}
+                id={`edit-task-description-${id}`}
                 placeholder={t("descriptionPlaceholder")}
                 dir="auto"
-                className="min-h-28 w-full min-w-0 max-w-full resize-none overflow-x-hidden wrap-break-word whitespace-pre-wrap text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
                 disabled={isEditPending}
-                aria-invalid={!!descriptionError}
+                aria-invalid={!!errors.description}
                 aria-describedby={
-                  descriptionError ? `edit-task-desc-error-${id}` : undefined
+                  errors.description
+                    ? `edit-task-description-error-${id}`
+                    : undefined
                 }
-                {...editForm.register("description")}
+                className="min-h-28 max-h-[50vh] w-full min-w-0 max-w-full resize-none overflow-x-hidden overflow-y-auto wrap-break-word whitespace-pre-wrap text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+                {...register("description")}
               />
 
-              {descriptionError && (
+              {errors.description?.message && (
                 <p
-                  id={`edit-task-desc-error-${id}`}
+                  id={`edit-task-description-error-${id}`}
+                  role="alert"
                   className="max-w-full text-sm text-destructive"
                 >
-                  {descriptionError.message}
+                  {taskErrorT(errors.description.message)}
                 </p>
               )}
             </div>
 
-            {/* Actions */}
             <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
               <DialogClose asChild>
                 <Button
@@ -331,7 +351,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
 
               <Button
                 type="submit"
-                disabled={isEditPending || !editForm.formState.isValid}
+                disabled={!isValid || isEditPending}
                 className="w-full sm:w-auto"
                 aria-busy={isEditPending}
               >
@@ -351,9 +371,8 @@ export default function TaskActions({ task }: TaskActionsProps) {
           </form>
         </DialogContent>
       </Dialog>
-      {/* Edit task */}
 
-      {/* Delete task */}
+      {/* Delete */}
       <AlertDialog
         open={isDeleteDialogOpen}
         onOpenChange={(open) => {
@@ -365,15 +384,17 @@ export default function TaskActions({ task }: TaskActionsProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <AlertDialogTrigger asChild>
-              <Button
-                {...iconButtonProps}
-                variant="destructive"
-                disabled={isActionPending}
-                aria-busy={isDeletePending}
-                aria-label={t("removeBtn")}
-              >
-                <Trash2 className="size-4 md:size-5" aria-hidden="true" />
-              </Button>
+              <span className="inline-flex">
+                <Button
+                  {...iconButtonProps}
+                  variant="destructive"
+                  disabled={isActionPending}
+                  aria-busy={isDeletePending}
+                  aria-label={t("removeBtn")}
+                >
+                  <Trash2 className="size-4 md:size-5" aria-hidden="true" />
+                </Button>
+              </span>
             </AlertDialogTrigger>
           </TooltipTrigger>
 
@@ -411,7 +432,7 @@ export default function TaskActions({ task }: TaskActionsProps) {
               variant="destructive"
               onClick={(event) => {
                 event.preventDefault();
-                handleDeleteClick();
+                handleDeleteTask();
               }}
               disabled={isActionPending}
               className="w-full sm:w-auto"
@@ -429,7 +450,6 @@ export default function TaskActions({ task }: TaskActionsProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      {/* Delete task */}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CirclePlus, Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createTask } from "@/actions/task.actions";
@@ -12,7 +12,6 @@ import { taskSchema, type TaskInput } from "@/lib/validations/task";
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -40,39 +39,47 @@ export default function TaskForm() {
 
   const form = useForm<TaskInput>({
     resolver: zodResolver(taskSchema),
+    mode: "onChange",
     defaultValues: {
       title: "",
       description: "",
     },
   });
 
-  const title = useWatch({
-    control: form.control,
-    name: "title",
-  });
-
-  const isDisabled = !title?.trim();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = form;
 
   const resetForm = () => {
-    form.reset();
+    reset({
+      title: "",
+      description: "",
+    });
   };
 
   const handleAddTask = (data: TaskInput) => {
-    const trimmedTitle = data.title.trim();
-    const trimmedDescription = data.description.trim();
+    const title = data.title.trim();
+    const description = data.description.trim();
 
     startTransition(async () => {
-      const result = await createTask(trimmedTitle, trimmedDescription);
+      try {
+        const result = await createTask(title, description);
 
-      if (!result.success) {
-        toast.error(taskErrorT(result.code));
-        return;
+        if (!result.success) {
+          toast.error(taskErrorT(result.code));
+          return;
+        }
+
+        resetForm();
+        setIsAddDialogOpen(false);
+
+        toast.success(toastT("taskAdded"));
+      } catch {
+        toast.error(toastT("unknownError"));
       }
-
-      resetForm();
-      setIsAddDialogOpen(false);
-
-      toast.success(toastT("taskAdded"));
     });
   };
 
@@ -91,7 +98,7 @@ export default function TaskForm() {
     >
       <DialogTrigger asChild>
         <Button size="lg" className="mx-auto flex w-full gap-2 md:w-50">
-          <CirclePlus className="size-5 shrink-0" />
+          <CirclePlus className="size-5 shrink-0" aria-hidden="true" />
 
           <span className="truncate">{t("triggerButton")}</span>
         </Button>
@@ -112,9 +119,11 @@ export default function TaskForm() {
         </DialogHeader>
 
         <form
-          onSubmit={form.handleSubmit(handleAddTask)}
+          onSubmit={handleSubmit(handleAddTask)}
           className="w-full min-w-0 max-w-full space-y-4 py-2"
+          noValidate
         >
+          {/* Title */}
           <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
             <Label htmlFor="task-title">{t("titleLabel")}</Label>
 
@@ -122,71 +131,69 @@ export default function TaskForm() {
               id="task-title"
               placeholder={t("titlePlaceholder")}
               dir="auto"
-              aria-invalid={!!form.formState.errors.title}
-              aria-describedby={
-                form.formState.errors.title ? "task-title-error" : undefined
-              }
-              className="w-full min-w-0 max-w-full text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
-              {...form.register("title")}
+              aria-invalid={!!errors.title}
+              aria-describedby={errors.title ? "task-title-error" : undefined}
+              className="w-full min-w-0 max-w-full text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+              {...register("title")}
             />
 
-            {form.formState.errors.title && (
+            {errors.title?.message && (
               <p
                 id="task-title-error"
+                role="alert"
                 className="max-w-full text-sm text-destructive"
               >
-                {form.formState.errors.title.message}
+                {taskErrorT(errors.title.message)}
               </p>
             )}
           </div>
 
+          {/* Description */}
           <div className="flex w-full min-w-0 max-w-full flex-col gap-2">
-            <Label htmlFor="task-desc">{t("descriptionLabel")}</Label>
+            <Label htmlFor="task-description">{t("descriptionLabel")}</Label>
 
             <Textarea
-              id="task-desc"
+              id="task-description"
               placeholder={t("descriptionPlaceholder")}
               dir="auto"
-              aria-invalid={!!form.formState.errors.description}
-              aria-describedby={
-                form.formState.errors.description
-                  ? "task-desc-error"
-                  : undefined
-              }
-              className="h-30 max-h-[50vh] w-full min-w-0 max-w-full resize-none overflow-y-hidden overflow-x-hidden wrap-break-word whitespace-pre-wrap text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
               disabled={isPending}
-              {...form.register("description")}
+              aria-invalid={!!errors.description}
+              aria-describedby={
+                errors.description ? "task-description-error" : undefined
+              }
+              className="h-30 max-h-[50vh] w-full min-w-0 max-w-full resize-none overflow-x-hidden overflow-y-auto wrap-break-word whitespace-pre-wrap text-sm md:text-base placeholder:text-start rtl:placeholder:text-end"
+              {...register("description")}
             />
 
-            {form.formState.errors.description && (
+            {errors.description?.message && (
               <p
-                id="task-desc-error"
+                id="task-description-error"
+                role="alert"
                 className="max-w-full text-sm text-destructive"
               >
-                {form.formState.errors.description.message}
+                {taskErrorT(errors.description.message)}
               </p>
             )}
           </div>
 
           <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
-            <DialogClose asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full sm:w-auto"
-                disabled={isPending}
-              >
-                {t("cancelBtn")}
-              </Button>
-            </DialogClose>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full sm:w-auto"
+              disabled={isPending}
+              onClick={() => setIsAddDialogOpen(false)}
+            >
+              {t("cancelBtn")}
+            </Button>
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="w-full sm:w-auto">
+                <span className="inline-flex w-full sm:w-auto">
                   <Button
                     type="submit"
-                    disabled={isDisabled || isPending}
+                    disabled={!isValid || isPending}
                     className="w-full sm:w-auto"
                     aria-busy={isPending}
                   >
@@ -205,7 +212,7 @@ export default function TaskForm() {
                 </span>
               </TooltipTrigger>
 
-              {isDisabled && !isPending && (
+              {!isValid && !isPending && (
                 <TooltipContent>{t("saveBtnTooltip")}</TooltipContent>
               )}
             </Tooltip>

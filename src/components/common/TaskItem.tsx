@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
+
 import {
   Card,
   CardDescription,
@@ -8,7 +10,6 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { useLocale, useTranslations } from "next-intl";
 
 import TaskActions from "./TaskActions";
 import type { Task } from "@/types/task.types";
@@ -26,24 +27,32 @@ export default function TaskItem({ task }: TaskItemProps) {
   const { title, description, status } = task;
 
   return (
-    <div className="min-w-0 flex flex-1 flex-col gap-3 text-start">
-      <Card className="my-1 flex min-h-50 w-full flex-col justify-center gap-6">
-        <CardHeader className="flex items-center justify-start gap-4">
+    <article className="min-w-0 w-full">
+      <Card className="my-1 flex min-h-50 w-full min-w-0 flex-col justify-center gap-6">
+        <CardHeader className="flex min-w-0 flex-col items-start gap-4 sm:flex-row sm:items-center">
           <Badge
             variant={status === "completed" ? "default" : "secondary"}
-            className="min-w-21 text-center"
+            className="min-w-21 shrink-0 justify-center text-center"
           >
             {t(status)}
           </Badge>
 
-          <div className="min-w-0 flex flex-1 flex-col gap-3 text-start">
-            <CardTitle className="text-xl font-semibold" dir="auto">
+          <div className="min-w-0 flex-1 space-y-3 text-start">
+            <CardTitle
+              className="wrap-break-word text-xl font-semibold"
+              dir="auto"
+            >
               {title}
             </CardTitle>
 
-            <CardDescription className="text-sm font-medium" dir="auto">
-              {description}
-            </CardDescription>
+            {description ? (
+              <CardDescription
+                className="wrap-break-word whitespace-pre-wrap text-sm font-medium"
+                dir="auto"
+              >
+                {description}
+              </CardDescription>
+            ) : null}
           </div>
         </CardHeader>
 
@@ -51,6 +60,6 @@ export default function TaskItem({ task }: TaskItemProps) {
           <TaskActions task={task} />
         </CardFooter>
       </Card>
-    </div>
+    </article>
   );
 }

@@ -81,7 +81,8 @@
     "taskAddFailed": "فشل في إضافة المهمة",
     "taskToggled": "تم تحديث الحالة بنجاح",
     "taskEdited": "تم تعديل المهمة بنجاح",
-    "taskDeleted": "تم حذف المهمة بنجاح"
+    "taskDeleted": "تم حذف المهمة بنجاح",
+    "unknownError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
   },
 
   "signUpForm": {

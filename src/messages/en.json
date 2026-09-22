@@ -81,7 +81,8 @@
     "taskAddFailed": "Failed to add task",
     "taskToggled": "Status updated successfully",
     "taskEdited": "Task updated successfully",
-    "taskDeleted": "Task deleted successfully"
+    "taskDeleted": "Task deleted successfully",
+    "unknownError": "Something went wrong. Please try again."
   },
 
   "signUpForm": {
