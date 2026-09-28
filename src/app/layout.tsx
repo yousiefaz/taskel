@@ -18,7 +18,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html suppressHydrationWarning>
-      <body className={rubik.className}>{children}</body>
+      <body className={`${rubik.className} min-h-screen bg-gray-100`}>
+        {children}
+      </body>
     </html>
   );
 }

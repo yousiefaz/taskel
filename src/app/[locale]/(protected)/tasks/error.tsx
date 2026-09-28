@@ -12,7 +12,7 @@ interface ErrorProps {
 }
 
 export default function Error({ error, reset }: ErrorProps) {
-  const t = useTranslations("taskList");
+  const t = useTranslations("tasks.list");
 
   useEffect(() => {
     console.error(error);

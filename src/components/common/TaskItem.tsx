@@ -22,7 +22,7 @@ export default function TaskItem({ task }: TaskItemProps) {
   const locale = useLocale();
   const direction = locale === "ar" ? "rtl" : "ltr";
 
-  const t = useTranslations("taskStatus");
+  const t = useTranslations("tasks.status");
 
   const { title, description, status } = task;
 

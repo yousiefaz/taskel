@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
+import AppNavbar from "@/components/layout/AppNavbar";
+
 type ProtectedLayoutProps = {
   children: React.ReactNode;
   params: Promise<{
@@ -19,5 +21,11 @@ export default async function ProtectedLayout({
     redirect(`/${locale}/sign-in`);
   }
 
-  return children;
+  return (
+    <>
+      <AppNavbar locale={locale} />
+
+      <main>{children}</main>
+    </>
+  );
 }

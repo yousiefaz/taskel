@@ -8,7 +8,7 @@ import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DirectionProvider } from "@/components/ui/direction";
 import { routing } from "@/i18n/routing";
-import LanguageSwitcher from "@/components/common/LanguageSwitcher";
+
 import SignOutButton from "@/components/auth/SignOutButton";
 
 interface LocaleLayoutProps {
@@ -59,14 +59,10 @@ export default async function LocaleLayout({
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <div dir={dir} className="bg-gray-100">
+    <div dir={dir} className="min-h-screen">
       <DirectionProvider direction={dir}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <TooltipProvider>
-            <LanguageSwitcher />
-
-            <SignOutButton locale={locale} />
-
             {children}
 
             <Toaster

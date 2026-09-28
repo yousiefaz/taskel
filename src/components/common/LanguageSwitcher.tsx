@@ -2,6 +2,7 @@
 
 import { Languages } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -15,26 +16,33 @@ import {
 import type { Locale } from "@/i18n/routing";
 
 export default function LanguageSwitcher() {
-  const t = useTranslations("language");
+  const t = useTranslations("navigation.language");
 
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const router = useRouter();
 
   const changeLanguage = (nextLocale: Locale) => {
-    router.replace(pathname, { locale: nextLocale });
+    if (nextLocale === locale) {
+      return;
+    }
+
+    router.replace(pathname, {
+      locale: nextLocale,
+    });
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="default"
+          type="button"
+          variant="outline"
+          size="icon"
           aria-label={t("label")}
-          size="sm"
-          className="gap-2"
+          className="gap-2 rounded-full"
         >
-          <Languages className="size-4" />
+          <Languages className="size-4" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
 

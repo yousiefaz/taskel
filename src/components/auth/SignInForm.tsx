@@ -25,7 +25,7 @@ import GoogleButton from "./GoogleButton";
 export default function SignInForm() {
   const router = useRouter();
 
-  const t = useTranslations("signInForm");
+  const t = useTranslations("auth.signIn");
   const commonT = useTranslations("common");
   const validationT = useTranslations("validation");
 
@@ -38,7 +38,7 @@ export default function SignInForm() {
   } = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
 
-    mode: "onBlur",
+    mode: "onSubmit",
     reValidateMode: "onChange",
 
     defaultValues: {
@@ -67,144 +67,144 @@ export default function SignInForm() {
   }
 
   return (
-    <main className="flex min-h-screen w-full items-center justify-center px-4 py-8">
-      <Card className="w-full max-w-md rounded-3xl border-border/60 shadow-sm">
-        <CardHeader className="space-y-2 px-6 pb-6 pt-6 text-center sm:px-8">
-          <CardTitle className="text-4xl font-bold tracking-tight">
-            {commonT("title")}
-          </CardTitle>
+    <Card className="w-full rounded-3xl border-border/60 shadow-sm">
+      <CardHeader className="space-y-2 px-6 pt-6 text-center sm:px-8 sm:pt-8">
+        <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+          {t("title")}
+        </CardTitle>
 
-          <p className="text-lg text-muted-foreground">{t("description")}</p>
-        </CardHeader>
+        <p className="mx-auto max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+          {t("description")}
+        </p>
+      </CardHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <CardContent className="space-y-5 px-6 sm:px-8">
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email">{t("email.label")}</Label>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <CardContent className="space-y-5 px-6 sm:px-8">
+          {/* Email */}
+          <div className="space-y-2">
+            <Label htmlFor="email">{t("email.label")}</Label>
 
-              <Input
-                id="email"
-                type="email"
-                placeholder={t("email.placeholder")}
-                autoComplete="email"
-                autoFocus
-                disabled={isSubmitting}
-                dir="auto"
-                aria-invalid={
-                  touchedFields.email && errors.email ? "true" : "false"
-                }
-                aria-describedby={
-                  touchedFields.email && errors.email?.message
-                    ? "email-error"
-                    : undefined
-                }
-                {...register("email")}
-                className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
-              />
+            <Input
+              id="email"
+              type="email"
+              placeholder={t("email.placeholder")}
+              autoComplete="email"
+              autoFocus
+              disabled={isSubmitting}
+              dir="auto"
+              aria-invalid={
+                touchedFields.email && errors.email ? "true" : "false"
+              }
+              aria-describedby={
+                touchedFields.email && errors.email?.message
+                  ? "email-error"
+                  : undefined
+              }
+              {...register("email")}
+              className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
+            />
 
-              {touchedFields.email && errors.email?.message && (
-                <p
-                  id="email-error"
-                  role="alert"
-                  className="text-sm text-destructive"
-                >
-                  {validationT(errors.email.message)}
-                </p>
-              )}
-            </div>
-
-            {/* Password */}
-            <div className="space-y-2">
-              <Label htmlFor="password">{t("password.label")}</Label>
-
-              <Input
-                id="password"
-                type="password"
-                placeholder={t("password.placeholder")}
-                autoComplete="current-password"
-                disabled={isSubmitting}
-                dir="auto"
-                aria-invalid={
-                  touchedFields.password && errors.password ? "true" : "false"
-                }
-                aria-describedby={
-                  touchedFields.password && errors.password?.message
-                    ? "password-error"
-                    : undefined
-                }
-                {...register("password")}
-                className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
-              />
-
-              {touchedFields.password && errors.password?.message && (
-                <p
-                  id="password-error"
-                  role="alert"
-                  className="text-sm text-destructive"
-                >
-                  {validationT(errors.password.message)}
-                </p>
-              )}
-            </div>
-
-            {/* Server Error */}
-            {serverError && (
+            {touchedFields.email && errors.email?.message && (
               <p
+                id="email-error"
                 role="alert"
-                dir="auto"
-                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-start text-sm text-destructive"
+                className="text-sm text-destructive"
               >
-                {serverError === "invalidCredentials"
-                  ? t("errors.invalidCredentials")
-                  : commonT("somethingWentWrong")}
+                {validationT(errors.email.message)}
               </p>
             )}
-          </CardContent>
+          </div>
 
-          <CardFooter className="flex flex-col gap-5 px-6 pb-6 pt-6 sm:px-8">
-            <Button
-              type="submit"
+          {/* Password */}
+          <div className="space-y-2">
+            <Label htmlFor="password">{t("password.label")}</Label>
+
+            <Input
+              id="password"
+              type="password"
+              placeholder={t("password.placeholder")}
+              autoComplete="current-password"
               disabled={isSubmitting}
-              aria-busy={isSubmitting}
-              className="h-11 w-full rounded-xl font-semibold"
+              dir="auto"
+              aria-invalid={
+                touchedFields.password && errors.password ? "true" : "false"
+              }
+              aria-describedby={
+                touchedFields.password && errors.password?.message
+                  ? "password-error"
+                  : undefined
+              }
+              {...register("password")}
+              className="h-11 rounded-xl placeholder:text-start rtl:placeholder:text-end"
+            />
+
+            {touchedFields.password && errors.password?.message && (
+              <p
+                id="password-error"
+                role="alert"
+                className="text-sm text-destructive"
+              >
+                {validationT(errors.password.message)}
+              </p>
+            )}
+          </div>
+
+          {/* Server Error */}
+          {serverError && (
+            <p
+              role="alert"
+              dir="auto"
+              className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-start text-sm text-destructive"
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                  {t("submitting")}
-                </>
-              ) : (
-                t("submit")
-              )}
-            </Button>
+              {serverError === "invalidCredentials"
+                ? t("errors.invalidCredentials")
+                : commonT("somethingWentWrong")}
+            </p>
+          )}
+        </CardContent>
 
-            <div className="w-full space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="h-px flex-1 bg-border" />
+        <CardFooter className="flex flex-col gap-5 px-6 pt-6 sm:px-8">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+            className="h-11 w-full rounded-xl font-semibold"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                {t("submitting")}
+              </>
+            ) : (
+              t("submit")
+            )}
+          </Button>
 
-                <span className="text-xs font-medium uppercase text-muted-foreground">
-                  {t("or")}
-                </span>
+          <div className="w-full space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="h-px flex-1 bg-border" />
 
-                <div className="h-px flex-1 bg-border" />
-              </div>
+              <span className="text-xs font-medium uppercase text-muted-foreground">
+                {t("or")}
+              </span>
 
-              <GoogleButton disabled={isSubmitting} />
+              <div className="h-px flex-1 bg-border" />
             </div>
 
-            <p className="text-center text-sm text-muted-foreground">
-              {t("dontHaveAccount")}{" "}
-              <Link
-                href="/sign-up"
-                className="font-semibold text-foreground underline-offset-4 transition-colors hover:underline"
-              >
-                {t("signUp")}
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
-      </Card>
-    </main>
+            <GoogleButton disabled={isSubmitting} />
+          </div>
+
+          <p className="text-center text-sm text-muted-foreground">
+            {t("dontHaveAccount")}{" "}
+            <Link
+              href="/sign-up"
+              className="font-semibold text-foreground underline-offset-4 transition-colors hover:underline"
+            >
+              {t("signUp")}
+            </Link>
+          </p>
+        </CardFooter>
+      </form>
+    </Card>
   );
 }

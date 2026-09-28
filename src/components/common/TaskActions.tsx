@@ -64,9 +64,9 @@ export default function TaskActions({ task }: TaskActionsProps) {
   const locale = useLocale();
   const direction = locale === "ar" ? "rtl" : "ltr";
 
-  const t = useTranslations("taskActions");
-  const toastT = useTranslations("toasts");
-  const taskErrorT = useTranslations("taskErrors");
+  const t = useTranslations("tasks.actions");
+  const toastT = useTranslations("tasks.toast");
+  const taskErrorT = useTranslations("tasks.error");
 
   const { id, title, description, status } = task;
 

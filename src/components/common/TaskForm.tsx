@@ -30,9 +30,9 @@ export default function TaskForm() {
   const locale = useLocale();
   const direction = locale === "ar" ? "rtl" : "ltr";
 
-  const t = useTranslations("taskForm");
-  const toastT = useTranslations("toasts");
-  const taskErrorT = useTranslations("taskErrors");
+  const t = useTranslations("tasks.form");
+  const toastT = useTranslations("tasks.toast");
+  const taskErrorT = useTranslations("tasks.error");
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isPending, startTransition] = useTransition();

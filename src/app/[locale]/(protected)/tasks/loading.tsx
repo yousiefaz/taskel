@@ -13,28 +13,16 @@ export default function Loading() {
     >
       <div className="w-full max-w-5xl">
         <div className="rounded-3xl border bg-card">
-          {/* Header */}
-          <div className="grid grid-cols-1 gap-4 px-6 py-6 md:grid-cols-3 md:items-center">
-            <div className="hidden md:block" />
-
-            <Skeleton
-              className="mx-auto h-10 w-48 md:h-14 md:w-64"
-              aria-hidden="true"
-            />
-
-            <div className="hidden md:block" />
-          </div>
-
           {/* Content */}
-          <div className="px-3 md:px-6">
+          <div className="px-3 pt-6 md:px-6">
             {/* Task Filters */}
             <div
               className="mb-4 flex items-center justify-center gap-2"
               aria-hidden="true"
             >
-              <Skeleton className="h-9 w-16 rounded-md" />
-              <Skeleton className="h-9 w-20 rounded-md" />
-              <Skeleton className="h-9 w-24 rounded-md" />
+              <Skeleton className="h-9 w-16 rounded-full" />
+              <Skeleton className="h-9 w-20 rounded-full" />
+              <Skeleton className="h-9 w-24 rounded-full" />
             </div>
 
             {/* Task List */}

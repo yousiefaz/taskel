@@ -1,149 +1,195 @@
 {
   "common": {
-    "title": "Taskel",
-    "somethingWentWrong": "Something went wrong. Please try again.",
-    "loading": "Loading..."
+    "brand": "Taskel",
+    "loading": "Loading...",
+    "somethingWentWrong": "Something went wrong. Please try again."
   },
 
-  "language": {
-    "switch": "Switch Language",
-    "label": "Change language",
-    "en": "English",
-    "ar": "Arabic"
-  },
-
-  "taskList": {
-    "noTasks": "No tasks available",
-    "noActiveTasks": "No active tasks",
-    "noCompletedTasks": "No completed tasks",
-    "errorTitle": "Something went wrong",
-    "errorDescription": "We couldn't load your tasks. Please try again.",
-    "tryAgain": "Try again"
-  },
-
-  "taskStatus": {
-    "active": "Active",
-    "completed": "Completed"
-  },
-
-  "taskForm": {
-    "triggerButton": "Add New Task",
-    "dialogTitle": "Add New Task",
-    "dialogDescription": "Fill in the task details and click add task.",
-    "titleLabel": "Task Title",
-    "titlePlaceholder": "Enter task title...",
-    "descriptionLabel": "Description",
-    "descriptionPlaceholder": "Enter task description...",
-    "cancelBtn": "Cancel",
-    "saveBtnTooltip": "Enter required data",
-    "saveBtn": "Add",
-    "adding": "Adding..."
-  },
-
-  "taskFilter": {
-    "all": "All",
-    "active": "Active",
-    "completed": "Completed"
-  },
-
-  "taskActions": {
-    "toggleStatusBtn": "Toggle status",
-    "editBtn": "Edit task",
-    "removeBtn": "Remove task",
-
-    "saving": "Saving...",
-    "deleting": "Deleting...",
-
-    "dialogTitle": "Edit Task",
-    "dialogDescription": "Update the task details and click save changes.",
-    "titleLabel": "Task Title",
-    "titlePlaceholder": "Enter task title...",
-    "descriptionLabel": "Description",
-    "descriptionPlaceholder": "Enter task description...",
-    "cancelBtn": "Cancel",
-    "saveBtnTooltip": "Enter required data",
-    "saveBtn": "Save Changes",
-
-    "alertDialogTitle": "Delete Task",
-    "alertDialogDescription": "This task will be permanently deleted and cannot be recovered.",
-    "deleteBtn": "Delete"
-  },
-
-  "taskErrors": {
-    "UNAUTHORIZED": "You are not authorized to perform this action.",
-    "INVALID_TASK_DATA": "Please check your task details and try again.",
-    "TASK_NOT_FOUND": "The task could not be found.",
-    "UNKNOWN_ERROR": "Something went wrong. Please try again."
-  },
-
-  "toasts": {
-    "taskAdded": "Task added successfully",
-    "taskAddFailed": "Failed to add task",
-    "taskToggled": "Status updated successfully",
-    "taskEdited": "Task updated successfully",
-    "taskDeleted": "Task deleted successfully",
-    "unknownError": "Something went wrong. Please try again."
-  },
-
-  "signUpForm": {
-    "description": "Create your account to get started",
-
-    "name": {
-      "label": "Name",
-      "placeholder": "Enter your name"
+  "navigation": {
+    "navbar": {
+      "navigation": "Navigation"
     },
 
-    "email": {
-      "label": "Email",
-      "placeholder": "you@example.com"
+    "auth": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up",
+      "noAccount": "Don't have an account?",
+      "hasAccount": "Already have an account?"
     },
 
-    "password": {
-      "label": "Password",
-      "placeholder": "Create a password",
-
-      "requirements": {
-        "minLength": "At least 8 characters"
-      }
+    "app": {
+      "mainNavigation": "Main navigation",
+      "tasks": "Tasks",
+      "dashboard": "Dashboard",
+      "account": "Account",
+      "profile": "Profile",
+      "settings": "Settings",
+      "menu": "Menu",
+      "openMenu": "Open menu"
     },
 
-    "confirmPassword": {
-      "label": "Confirm password",
-      "placeholder": "Confirm your password"
+    "userMenu": {
+      "greeting": "Hi,",
+      "account": "Open account menu",
+      "profile": "Profile",
+      "settings": "Settings"
     },
 
-    "submit": "Create Account",
-    "submitting": "Creating account...",
-    "alreadyHaveAccount": "Already have an account?",
-    "signIn": "Sign in",
-    "or": "OR",
+    "signOut": {
+      "label": "Sign Out"
+    },
 
-    "errors": {
-      "emailAlreadyExists": "An account with this email already exists."
+    "language": {
+      "switch": "Switch Language",
+      "label": "Change language",
+      "en": "English",
+      "ar": "Arabic"
     }
   },
 
-  "signInForm": {
-    "description": "Welcome back. Sign in to continue",
-
-    "email": {
-      "label": "Email",
-      "placeholder": "you@example.com"
+  "tasks": {
+    "list": {
+      "noTasks": "No tasks available",
+      "noActiveTasks": "No active tasks",
+      "noCompletedTasks": "No completed tasks",
+      "errorTitle": "Something went wrong",
+      "errorDescription": "We couldn't load your tasks. Please try again.",
+      "tryAgain": "Try again"
     },
 
-    "password": {
-      "label": "Password",
-      "placeholder": "Enter your password"
+    "status": {
+      "active": "Active",
+      "completed": "Completed"
     },
 
-    "submit": "Sign In",
-    "submitting": "Signing in...",
-    "dontHaveAccount": "Don't have an account?",
-    "signUp": "Sign up",
-    "or": "OR",
+    "filter": {
+      "all": "All",
+      "active": "Active",
+      "completed": "Completed"
+    },
+
+    "form": {
+      "triggerButton": "Add New Task",
+      "dialogTitle": "Add New Task",
+      "dialogDescription": "Fill in the task details and click add task.",
+      "titleLabel": "Task Title",
+      "titlePlaceholder": "Enter task title...",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Enter task description...",
+      "cancelButton": "Cancel",
+      "saveButtonTooltip": "Enter required data",
+      "saveButton": "Add",
+      "adding": "Adding..."
+    },
+
+    "actions": {
+      "toggleStatusButton": "Toggle status",
+      "editButton": "Edit task",
+      "removeButton": "Remove task",
+
+      "saving": "Saving...",
+      "deleting": "Deleting...",
+
+      "dialogTitle": "Edit Task",
+      "dialogDescription": "Update the task details and click save changes.",
+      "titleLabel": "Task Title",
+      "titlePlaceholder": "Enter task title...",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Enter task description...",
+      "cancelButton": "Cancel",
+      "saveButtonTooltip": "Enter required data",
+      "saveButton": "Save Changes",
+
+      "alertDialogTitle": "Delete Task",
+      "alertDialogDescription": "This task will be permanently deleted and cannot be recovered.",
+      "deleteButton": "Delete"
+    },
 
     "errors": {
-      "invalidCredentials": "Invalid email or password."
+      "UNAUTHORIZED": "You are not authorized to perform this action.",
+      "INVALID_TASK_DATA": "Please check your task details and try again.",
+      "TASK_NOT_FOUND": "The task could not be found.",
+      "UNKNOWN_ERROR": "Something went wrong. Please try again."
+    },
+
+    "toasts": {
+      "added": "Task added successfully",
+      "addFailed": "Failed to add task",
+      "toggled": "Status updated successfully",
+      "edited": "Task updated successfully",
+      "deleted": "Task deleted successfully",
+      "unknownError": "Something went wrong. Please try again."
+    }
+  },
+
+  "auth": {
+    "signUp": {
+      "title": "Make today count.",
+      "description": "Create your account and take the first step",
+
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter your name"
+      },
+
+      "email": {
+        "label": "Email",
+        "placeholder": "you@example.com"
+      },
+
+      "password": {
+        "label": "Password",
+        "placeholder": "Create a password",
+
+        "requirements": {
+          "minLength": "At least 8 characters"
+        }
+      },
+
+      "confirmPassword": {
+        "label": "Confirm password",
+        "placeholder": "Confirm your password"
+      },
+
+      "submit": "Create Account",
+      "submitting": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "or": "OR",
+
+      "errors": {
+        "emailAlreadyExists": "An account with this email already exists."
+      }
+    },
+
+    "signIn": {
+      "title": "Ready to get things done?",
+      "description": "Sign in and keep your day on track",
+
+      "email": {
+        "label": "Email",
+        "placeholder": "you@example.com"
+      },
+
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "dontHaveAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "or": "OR",
+
+      "errors": {
+        "invalidCredentials": "Invalid email or password."
+      }
+    },
+
+    "google": {
+      "continueWithGoogle": "Continue with Google",
+      "loading": "Connecting to Google..."
     }
   },
 
@@ -155,10 +201,5 @@
     "passwordMax": "Password must be less than 72 characters",
     "passwordRequired": "Password is required",
     "passwordMismatch": "Passwords do not match"
-  },
-
-  "googleAuth": {
-    "continueWithGoogle": "Continue with Google",
-    "loading": "Connecting to Google..."
   }
 }

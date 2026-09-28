@@ -1,164 +1,205 @@
 {
   "common": {
-    "title": "Taskel",
-    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
-    "loading": "جاري التحميل..."
+    "brand": "Taskel",
+    "loading": "جاري التحميل...",
+    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
   },
 
-  "language": {
-    "switch": "تغيير اللغة",
-    "label": "تغيير اللغة",
-    "en": "English",
-    "ar": "العربية"
-  },
-
-  "taskList": {
-    "noTasks": "لا توجد مهام حالياً",
-    "noActiveTasks": "لا توجد مهام نشطة",
-    "noCompletedTasks": "لا توجد مهام مكتملة",
-    "errorTitle": "حدث خطأ ما",
-    "errorDescription": "تعذر تحميل مهامك. حاول مرة أخرى.",
-    "tryAgain": "حاول مرة أخرى"
-  },
-
-  "taskStatus": {
-    "active": "قيد التنفيذ",
-    "completed": "مكتملة"
-  },
-
-  "taskForm": {
-    "triggerButton": "إضافة مهمة جديدة",
-    "dialogTitle": "إضافة مهمة جديدة",
-    "dialogDescription": "قم بملء بيانات المهمة ثم اضغط إضافة المهمة.",
-    "titleLabel": "عنوان المهمة",
-    "titlePlaceholder": "اكتب عنوان المهمة",
-    "descriptionLabel": "الوصف",
-    "descriptionPlaceholder": "اكتب وصف المهمة",
-    "cancelBtn": "إلغاء",
-    "saveBtnTooltip": "أدخل البيانات اللازمة",
-    "saveBtn": "إضافة",
-    "adding": "جارٍ الإضافة..."
-  },
-
-  "taskFilter": {
-    "all": "الكل",
-    "active": "قيد التنفيذ",
-    "completed": "مكتملة"
-  },
-
-  "taskActions": {
-    "toggleStatusBtn": "تغيير الحالة",
-    "editBtn": "تعديل المهمة",
-    "removeBtn": "حذف المهمة",
-
-    "saving": "جارٍ الحفظ...",
-    "deleting": "جارٍ الحذف...",
-
-    "dialogTitle": "تعديل المهمة",
-    "dialogDescription": "قم بتعديل بيانات المهمة ثم اضغط حفظ التعديلات.",
-    "titleLabel": "عنوان المهمة",
-    "titlePlaceholder": "اكتب عنوان المهمة",
-    "descriptionLabel": "الوصف",
-    "descriptionPlaceholder": "اكتب وصف المهمة",
-    "cancelBtn": "إلغاء",
-    "saveBtnTooltip": "أدخل البيانات اللازمة",
-    "saveBtn": "حفظ التعديلات",
-
-    "alertDialogTitle": "حذف المهمة",
-    "alertDialogDescription": "سيتم حذف هذه المهمة نهائيًا ولا يمكن استرجاعها بعد ذلك.",
-    "deleteBtn": "حذف"
-  },
-
-  "taskErrors": {
-    "UNAUTHORIZED": "ليس لديك صلاحية لتنفيذ هذا الإجراء.",
-    "INVALID_TASK_DATA": "يرجى التحقق من بيانات المهمة والمحاولة مرة أخرى.",
-    "TASK_NOT_FOUND": "تعذر العثور على المهمة.",
-    "UNKNOWN_ERROR": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
-  },
-
-  "toasts": {
-    "taskAdded": "تمت إضافة المهمة بنجاح",
-    "taskAddFailed": "فشل في إضافة المهمة",
-    "taskToggled": "تم تحديث الحالة بنجاح",
-    "taskEdited": "تم تعديل المهمة بنجاح",
-    "taskDeleted": "تم حذف المهمة بنجاح",
-    "unknownError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
-  },
-
-  "signUpForm": {
-    "description": "أنشئ حسابك للبدء",
-
-    "name": {
-      "label": "الاسم",
-      "placeholder": "أدخل اسمك"
+  "navigation": {
+    "navbar": {
+      "navigation": "التنقل"
     },
 
-    "email": {
-      "label": "البريد الإلكتروني",
-      "placeholder": "you@example.com"
+    "auth": {
+      "signIn": "تسجيل الدخول",
+      "signUp": "إنشاء حساب",
+      "noAccount": "ليس لديك حساب؟",
+      "hasAccount": "لديك حساب بالفعل؟"
     },
 
-    "password": {
-      "label": "كلمة المرور",
-      "placeholder": "أنشئ كلمة مرور",
-
-      "requirements": {
-        "minLength": "8 أحرف على الأقل"
-      }
+    "app": {
+      "mainNavigation": "التنقل الرئيسي",
+      "tasks": "المهام",
+      "dashboard": "لوحة التحكم",
+      "account": "الحساب",
+      "profile": "الملف الشخصي",
+      "settings": "الإعدادات",
+      "menu": "القائمة",
+      "openMenu": "فتح القائمة"
     },
 
-    "confirmPassword": {
-      "label": "تأكيد كلمة المرور",
-      "placeholder": "أكد كلمة المرور"
+    "userMenu": {
+      "greeting": "مرحبًا،",
+      "account": "فتح قائمة الحساب",
+      "profile": "الملف الشخصي",
+      "settings": "الإعدادات"
     },
 
-    "submit": "إنشاء الحساب",
-    "submitting": "جارٍ إنشاء الحساب...",
-    "alreadyHaveAccount": "لديك حساب بالفعل؟",
-    "signIn": "تسجيل الدخول",
-    "or": "أو",
+    "signOut": {
+      "label": "تسجيل الخروج"
+    },
 
-    "errors": {
-      "emailAlreadyExists": "يوجد حساب بالفعل بهذا البريد الإلكتروني."
+    "language": {
+      "switch": "تغيير اللغة",
+      "label": "تغيير اللغة",
+      "en": "English",
+      "ar": "العربية"
     }
   },
 
-  "signInForm": {
-    "description": "مرحبًا بعودتك. سجّل الدخول للمتابعة",
-
-    "email": {
-      "label": "البريد الإلكتروني",
-      "placeholder": "you@example.com"
+  "tasks": {
+    "list": {
+      "noTasks": "لا توجد مهام حاليًا",
+      "noActiveTasks": "لا توجد مهام نشطة",
+      "noCompletedTasks": "لا توجد مهام مكتملة",
+      "errorTitle": "حدث خطأ ما",
+      "errorDescription": "تعذر تحميل مهامك. حاول مرة أخرى.",
+      "tryAgain": "حاول مرة أخرى"
     },
 
-    "password": {
-      "label": "كلمة المرور",
-      "placeholder": "أدخل كلمة المرور"
+    "status": {
+      "active": "قيد التنفيذ",
+      "completed": "مكتملة"
     },
 
-    "submit": "تسجيل الدخول",
-    "submitting": "جارٍ تسجيل الدخول...",
-    "dontHaveAccount": "ليس لديك حساب؟",
-    "signUp": "إنشاء حساب",
-    "or": "أو",
+    "filter": {
+      "all": "الكل",
+      "active": "قيد التنفيذ",
+      "completed": "مكتملة"
+    },
+
+    "form": {
+      "triggerButton": "إضافة مهمة جديدة",
+      "dialogTitle": "إضافة مهمة جديدة",
+      "dialogDescription": "أدخل بيانات المهمة ثم اضغط على إضافة.",
+      "titleLabel": "عنوان المهمة",
+      "titlePlaceholder": "اكتب عنوان المهمة...",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "اكتب وصف المهمة...",
+      "cancelButton": "إلغاء",
+      "saveButtonTooltip": "أدخل البيانات المطلوبة",
+      "saveButton": "إضافة",
+      "adding": "جارٍ الإضافة..."
+    },
+
+    "actions": {
+      "toggleStatusButton": "تغيير الحالة",
+      "editButton": "تعديل المهمة",
+      "removeButton": "حذف المهمة",
+
+      "saving": "جارٍ الحفظ...",
+      "deleting": "جارٍ الحذف...",
+
+      "dialogTitle": "تعديل المهمة",
+      "dialogDescription": "عدّل بيانات المهمة ثم اضغط على حفظ التعديلات.",
+      "titleLabel": "عنوان المهمة",
+      "titlePlaceholder": "اكتب عنوان المهمة...",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "اكتب وصف المهمة...",
+      "cancelButton": "إلغاء",
+      "saveButtonTooltip": "أدخل البيانات المطلوبة",
+      "saveButton": "حفظ التعديلات",
+
+      "alertDialogTitle": "حذف المهمة",
+      "alertDialogDescription": "سيتم حذف هذه المهمة نهائيًا ولا يمكن استرجاعها بعد ذلك.",
+      "deleteButton": "حذف"
+    },
 
     "errors": {
-      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة."
+      "UNAUTHORIZED": "ليس لديك صلاحية لتنفيذ هذا الإجراء.",
+      "INVALID_TASK_DATA": "يرجى التحقق من بيانات المهمة والمحاولة مرة أخرى.",
+      "TASK_NOT_FOUND": "تعذر العثور على المهمة.",
+      "UNKNOWN_ERROR": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+
+    "toasts": {
+      "added": "تمت إضافة المهمة بنجاح",
+      "addFailed": "فشل في إضافة المهمة",
+      "toggled": "تم تحديث الحالة بنجاح",
+      "edited": "تم تحديث المهمة بنجاح",
+      "deleted": "تم حذف المهمة بنجاح",
+      "unknownError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    }
+  },
+
+  "auth": {
+    "signUp": {
+      "title": "اجعل يومك مثمرًا.",
+      "description": "أنشئ حسابك وخطُ خطوتك الأولى",
+
+      "name": {
+        "label": "الاسم",
+        "placeholder": "أدخل اسمك"
+      },
+
+      "email": {
+        "label": "البريد الإلكتروني",
+        "placeholder": "you@example.com"
+      },
+
+      "password": {
+        "label": "كلمة المرور",
+        "placeholder": "أنشئ كلمة مرور",
+
+        "requirements": {
+          "minLength": "8 أحرف على الأقل"
+        }
+      },
+
+      "confirmPassword": {
+        "label": "تأكيد كلمة المرور",
+        "placeholder": "أكد كلمة المرور"
+      },
+
+      "submit": "إنشاء الحساب",
+      "submitting": "جارٍ إنشاء الحساب...",
+      "alreadyHaveAccount": "لديك حساب بالفعل؟",
+      "signIn": "تسجيل الدخول",
+      "or": "أو",
+
+      "errors": {
+        "emailAlreadyExists": "يوجد حساب بالفعل بهذا البريد الإلكتروني."
+      }
+    },
+
+    "signIn": {
+      "title": "مستعدّ للإنجاز؟",
+      "description": "سجّل الدخول وحافظ على مسار يومك",
+
+      "email": {
+        "label": "البريد الإلكتروني",
+        "placeholder": "you@example.com"
+      },
+
+      "password": {
+        "label": "كلمة المرور",
+        "placeholder": "أدخل كلمة المرور"
+      },
+
+      "submit": "تسجيل الدخول",
+      "submitting": "جارٍ تسجيل الدخول...",
+      "dontHaveAccount": "ليس لديك حساب؟",
+      "signUp": "إنشاء حساب",
+      "or": "أو",
+
+      "errors": {
+        "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة."
+      }
+    },
+
+    "google": {
+      "continueWithGoogle": "المتابعة باستخدام Google",
+      "loading": "جارٍ الاتصال بـ Google..."
     }
   },
 
   "validation": {
-    "nameMin": "يجب أن يكون الاسم 4 حروف على الأقل",
+    "nameMin": "يجب أن يكون الاسم 4 أحرف على الأقل",
     "nameMax": "يجب ألا يزيد الاسم عن 100 حرف",
     "emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
     "passwordMin": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     "passwordMax": "يجب ألا تزيد كلمة المرور عن 72 حرفًا",
     "passwordRequired": "كلمة المرور مطلوبة",
     "passwordMismatch": "كلمتا المرور غير متطابقتين"
-  },
-
-  "googleAuth": {
-    "continueWithGoogle": "المتابعة باستخدام Google",
-    "loading": "جارٍ الاتصال بـ Google..."
   }
 }

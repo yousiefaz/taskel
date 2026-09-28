@@ -13,7 +13,7 @@ interface GoogleButtonProps {
 
 export default function GoogleButton({ disabled = false }: GoogleButtonProps) {
   const locale = useLocale();
-  const t = useTranslations("googleAuth");
+  const t = useTranslations("auth.google");
 
   const [isLoading, setIsLoading] = useState(false);
 

@@ -2,7 +2,8 @@
 
 import { AuthError } from "next-auth";
 
-import { signIn as authSignIn } from "@/auth";
+import { signIn as authSignIn, signOut as authSignOut } from "@/auth";
+
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
 import { signInSchema, signUpSchema } from "@/lib/validations/auth";
@@ -79,4 +80,10 @@ export async function signIn(input: unknown) {
 
     throw error;
   }
+}
+
+export async function signOutUser(locale: string) {
+  await authSignOut({
+    redirectTo: `/${locale}/sign-in`,
+  });
 }

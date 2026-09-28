@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
+import AuthNavbar from "@/components/layout/AuthNavbar";
+
 type AuthLayoutProps = {
   children: React.ReactNode;
   params: Promise<{
@@ -19,5 +21,11 @@ export default async function AuthLayout({
     redirect(`/${locale}/tasks`);
   }
 
-  return children;
+  return (
+    <>
+      <AuthNavbar />
+
+      <main>{children}</main>
+    </>
+  );
 }

@@ -1,33 +1,26 @@
-import { auth, signOut } from "@/auth";
+"use client";
+
+import { useTranslations } from "next-intl";
+
+import { signOutUser } from "@/actions/auth.actions";
+
 import { Button } from "../ui/button";
 
 type SignOutButtonProps = {
   locale: string;
 };
 
-export default async function SignOutButton({ locale }: SignOutButtonProps) {
-  const session = await auth();
-
-  if (!session) {
-    return null;  
-  }
+export default function SignOutButton({ locale }: SignOutButtonProps) {
+  const t = useTranslations("navigation.signOut");
 
   return (
-    <form
-      action={async () => {
-        "use server";
-
-        await signOut({
-          redirectTo: `/${locale}/sign-in`,
-        });
-      }}
-    >
+    <form action={signOutUser.bind(null, locale)}>
       <Button
         variant="destructive"
         type="submit"
-        className="flex items-center rounded-sm px-2 py-1.5 text-sm text-red-600 outline-none hover:bg-red-50 focus:bg-red-50"
+        className="w-full justify-start text-destructive"
       >
-        Sign Out
+        {t("label")}
       </Button>
     </form>
   );

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardFooter } from "../ui/card";
 import { Tabs, TabsContent } from "../ui/tabs";
 import { ScrollArea } from "../ui/scroll-area";
 import { useTranslations } from "next-intl";
@@ -24,8 +18,7 @@ interface TaskListProps {
 }
 
 export default function TaskList({ tasks }: TaskListProps) {
-  const t = useTranslations("taskList");
-  const commonT = useTranslations("common");
+  const t = useTranslations("tasks.list");
 
   const activeTasks = tasks.filter((task) => task.status === "active");
   const completedTasks = tasks.filter((task) => task.status === "completed");
@@ -62,44 +55,30 @@ export default function TaskList({ tasks }: TaskListProps) {
   };
 
   return (
-    <>
-      <Card className="mx-auto w-full max-w-5xl rounded-3xl">
-        <CardHeader className="grid grid-cols-1 gap-4 md:grid-cols-3 md:items-center">
-          <div className="hidden md:block" />
+    <Card className="w-full rounded-3xl">
+      <CardContent className="px-3 md:px-6">
+        <Tabs defaultValue="all" className="w-full">
+          <TaskFilter />
 
-          <div>
-            <CardTitle className="cursor-default text-center text-3xl font-bold md:text-5xl">
-              {commonT("title")}
-            </CardTitle>
-          </div>
+          <ScrollArea className="h-87 w-full md:h-106">
+            <TabsContent value="all" className="px-4">
+              {renderTasks(tasks, "noTasks")}
+            </TabsContent>
 
-          <div className="flex justify-center md:justify-end md:px-4"></div>
-        </CardHeader>
+            <TabsContent value="active" className="px-1 md:px-4">
+              {renderTasks(activeTasks, "noActiveTasks")}
+            </TabsContent>
 
-        <CardContent className="px-3 md:px-6">
-          <Tabs defaultValue="all" className="w-full">
-            <TaskFilter />
+            <TabsContent value="completed" className="px-1 md:px-4">
+              {renderTasks(completedTasks, "noCompletedTasks")}
+            </TabsContent>
+          </ScrollArea>
+        </Tabs>
+      </CardContent>
 
-            <ScrollArea className="h-87 w-full md:h-106">
-              <TabsContent value="all" className="px-4">
-                {renderTasks(tasks, "noTasks")}
-              </TabsContent>
-
-              <TabsContent value="active" className="px-1 md:px-4">
-                {renderTasks(activeTasks, "noActiveTasks")}
-              </TabsContent>
-
-              <TabsContent value="completed" className="px-1 md:px-4">
-                {renderTasks(completedTasks, "noCompletedTasks")}
-              </TabsContent>
-            </ScrollArea>
-          </Tabs>
-        </CardContent>
-
-        <CardFooter className="flex w-full justify-center pb-1">
-          <TaskForm />
-        </CardFooter>
-      </Card>
-    </>
+      <CardFooter className="flex w-full justify-center pb-1">
+        <TaskForm />
+      </CardFooter>
+    </Card>
   );
 }
