@@ -7,29 +7,19 @@
 
   "navigation": {
     "navbar": {
-      "navigation": "التنقل"
-    },
-
-    "auth": {
-      "signIn": "تسجيل الدخول",
-      "signUp": "إنشاء حساب",
-      "noAccount": "ليس لديك حساب؟",
-      "hasAccount": "لديك حساب بالفعل؟"
-    },
-
-    "app": {
       "mainNavigation": "التنقل الرئيسي",
       "tasks": "المهام",
       "dashboard": "لوحة التحكم",
-      "account": "الحساب",
-      "profile": "الملف الشخصي",
-      "settings": "الإعدادات",
       "menu": "القائمة",
       "openMenu": "فتح القائمة"
     },
 
+    "auth": {
+      "signIn": "تسجيل الدخول",
+      "signUp": "إنشاء حساب"
+    },
+
     "userMenu": {
-      "greeting": "مرحبًا،",
       "account": "فتح قائمة الحساب",
       "profile": "الملف الشخصي",
       "settings": "الإعدادات"
@@ -40,7 +30,6 @@
     },
 
     "language": {
-      "switch": "تغيير اللغة",
       "label": "تغيير اللغة",
       "en": "English",
       "ar": "العربية"
@@ -76,16 +65,16 @@
       "titlePlaceholder": "اكتب عنوان المهمة...",
       "descriptionLabel": "الوصف",
       "descriptionPlaceholder": "اكتب وصف المهمة...",
-      "cancelButton": "إلغاء",
-      "saveButtonTooltip": "أدخل البيانات المطلوبة",
-      "saveButton": "إضافة",
+      "cancelBtn": "إلغاء",
+      "saveBtnTooltip": "أدخل البيانات المطلوبة",
+      "saveBtn": "إضافة",
       "adding": "جارٍ الإضافة..."
     },
 
     "actions": {
-      "toggleStatusButton": "تغيير الحالة",
-      "editButton": "تعديل المهمة",
-      "removeButton": "حذف المهمة",
+      "toggleStatusBtn": "تغيير الحالة",
+      "editBtn": "تعديل المهمة",
+      "removeBtn": "حذف المهمة",
 
       "saving": "جارٍ الحفظ...",
       "deleting": "جارٍ الحذف...",
@@ -96,28 +85,30 @@
       "titlePlaceholder": "اكتب عنوان المهمة...",
       "descriptionLabel": "الوصف",
       "descriptionPlaceholder": "اكتب وصف المهمة...",
-      "cancelButton": "إلغاء",
-      "saveButtonTooltip": "أدخل البيانات المطلوبة",
-      "saveButton": "حفظ التعديلات",
+      "cancelBtn": "إلغاء",
+      "saveBtn": "حفظ التعديلات",
 
       "alertDialogTitle": "حذف المهمة",
       "alertDialogDescription": "سيتم حذف هذه المهمة نهائيًا ولا يمكن استرجاعها بعد ذلك.",
-      "deleteButton": "حذف"
+      "deleteBtn": "حذف"
     },
 
-    "errors": {
+    "error": {
       "UNAUTHORIZED": "ليس لديك صلاحية لتنفيذ هذا الإجراء.",
       "INVALID_TASK_DATA": "يرجى التحقق من بيانات المهمة والمحاولة مرة أخرى.",
       "TASK_NOT_FOUND": "تعذر العثور على المهمة.",
-      "UNKNOWN_ERROR": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+      "UNKNOWN_ERROR": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+
+      "titleRequired": "عنوان المهمة مطلوب",
+      "titleMax": "يجب ألا يزيد العنوان عن 200 حرف",
+      "descriptionMax": "يجب ألا يزيد الوصف عن 1000 حرف"
     },
 
-    "toasts": {
-      "added": "تمت إضافة المهمة بنجاح",
-      "addFailed": "فشل في إضافة المهمة",
-      "toggled": "تم تحديث الحالة بنجاح",
-      "edited": "تم تحديث المهمة بنجاح",
-      "deleted": "تم حذف المهمة بنجاح",
+    "toast": {
+      "taskAdded": "تمت إضافة المهمة بنجاح",
+      "taskToggled": "تم تحديث الحالة بنجاح",
+      "taskEdited": "تم تحديث المهمة بنجاح",
+      "taskDeleted": "تم حذف المهمة بنجاح",
       "unknownError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
     }
   },

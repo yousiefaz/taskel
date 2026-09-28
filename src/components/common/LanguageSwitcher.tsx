@@ -12,6 +12,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import type { Locale } from "@/i18n/routing";
 
@@ -33,34 +38,40 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          aria-label={t("label")}
-          className="gap-2 rounded-full"
-        >
-          <Languages className="size-4" aria-hidden="true" />
-        </Button>
-      </DropdownMenuTrigger>
+    <Tooltip>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              aria-label={t("label")}
+              className="rounded-full"
+            >
+              <Languages className="size-4" aria-hidden="true" />
+            </Button>
+          </TooltipTrigger>
+        </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          disabled={locale === "en"}
-          onClick={() => changeLanguage("en")}
-        >
-          {t("en")}
-        </DropdownMenuItem>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            disabled={locale === "en"}
+            onClick={() => changeLanguage("en")}
+          >
+            {t("en")}
+          </DropdownMenuItem>
 
-        <DropdownMenuItem
-          disabled={locale === "ar"}
-          onClick={() => changeLanguage("ar")}
-        >
-          {t("ar")}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <DropdownMenuItem
+            disabled={locale === "ar"}
+            onClick={() => changeLanguage("ar")}
+          >
+            {t("ar")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <TooltipContent>{t("label")}</TooltipContent>
+    </Tooltip>
   );
 }

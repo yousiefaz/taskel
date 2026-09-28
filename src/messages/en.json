@@ -7,29 +7,19 @@
 
   "navigation": {
     "navbar": {
-      "navigation": "Navigation"
-    },
-
-    "auth": {
-      "signIn": "Sign In",
-      "signUp": "Sign Up",
-      "noAccount": "Don't have an account?",
-      "hasAccount": "Already have an account?"
-    },
-
-    "app": {
       "mainNavigation": "Main navigation",
       "tasks": "Tasks",
       "dashboard": "Dashboard",
-      "account": "Account",
-      "profile": "Profile",
-      "settings": "Settings",
       "menu": "Menu",
       "openMenu": "Open menu"
     },
 
+    "auth": {
+      "signIn": "Sign In",
+      "signUp": "Sign Up"
+    },
+
     "userMenu": {
-      "greeting": "Hi,",
       "account": "Open account menu",
       "profile": "Profile",
       "settings": "Settings"
@@ -40,7 +30,6 @@
     },
 
     "language": {
-      "switch": "Switch Language",
       "label": "Change language",
       "en": "English",
       "ar": "Arabic"
@@ -76,16 +65,16 @@
       "titlePlaceholder": "Enter task title...",
       "descriptionLabel": "Description",
       "descriptionPlaceholder": "Enter task description...",
-      "cancelButton": "Cancel",
-      "saveButtonTooltip": "Enter required data",
-      "saveButton": "Add",
+      "cancelBtn": "Cancel",
+      "saveBtnTooltip": "Enter required data",
+      "saveBtn": "Add",
       "adding": "Adding..."
     },
 
     "actions": {
-      "toggleStatusButton": "Toggle status",
-      "editButton": "Edit task",
-      "removeButton": "Remove task",
+      "toggleStatusBtn": "Toggle status",
+      "editBtn": "Edit task",
+      "removeBtn": "Remove task",
 
       "saving": "Saving...",
       "deleting": "Deleting...",
@@ -96,28 +85,30 @@
       "titlePlaceholder": "Enter task title...",
       "descriptionLabel": "Description",
       "descriptionPlaceholder": "Enter task description...",
-      "cancelButton": "Cancel",
-      "saveButtonTooltip": "Enter required data",
-      "saveButton": "Save Changes",
+      "cancelBtn": "Cancel",
+      "saveBtn": "Save Changes",
 
       "alertDialogTitle": "Delete Task",
       "alertDialogDescription": "This task will be permanently deleted and cannot be recovered.",
-      "deleteButton": "Delete"
+      "deleteBtn": "Delete"
     },
 
-    "errors": {
+    "error": {
       "UNAUTHORIZED": "You are not authorized to perform this action.",
       "INVALID_TASK_DATA": "Please check your task details and try again.",
       "TASK_NOT_FOUND": "The task could not be found.",
-      "UNKNOWN_ERROR": "Something went wrong. Please try again."
+      "UNKNOWN_ERROR": "Something went wrong. Please try again.",
+
+      "titleRequired": "Task title is required",
+      "titleMax": "Title must be 200 characters or fewer",
+      "descriptionMax": "Description must be 1000 characters or fewer"
     },
 
-    "toasts": {
-      "added": "Task added successfully",
-      "addFailed": "Failed to add task",
-      "toggled": "Status updated successfully",
-      "edited": "Task updated successfully",
-      "deleted": "Task deleted successfully",
+    "toast": {
+      "taskAdded": "Task added successfully",
+      "taskToggled": "Status updated successfully",
+      "taskEdited": "Task updated successfully",
+      "taskDeleted": "Task deleted successfully",
       "unknownError": "Something went wrong. Please try again."
     }
   },

@@ -1,5 +1,4 @@
 import UserMenu from "@/components/layout/UserMenu";
-// import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import AppNavbarNavigation from "./AppNavbarNavigation";
 import Logo from "./Logo";
 
@@ -16,8 +15,6 @@ export default function AppNavbar({ locale }: AppNavbarProps) {
         <AppNavbarNavigation />
 
         <div className="flex items-center gap-2">
-          {/* <LanguageSwitcher /> */}
-
           <UserMenu locale={locale} />
         </div>
       </div>

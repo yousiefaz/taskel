@@ -1,7 +1,10 @@
 export default function Dashboard() {
   return (
-    <h1 className="flex min-h-screen justify-center items-center text-2xl font-bold">
-      Dashboard
-    </h1>
+    <div className="flex flex-col min-h-screen justify-center items-center gap-3">
+      <h1 className=" text-2xl font-bold">Dashboard</h1>
+      <p className="text-base text-muted-foreground">
+        This page is currently under development. Please check back soon.
+      </p>
+    </div>
   );
 }

@@ -29,6 +29,7 @@ const navigationItems = [
 
 export default function AppNavbarNavigation() {
   const t = useTranslations("navigation.navbar");
+  
   const pathname = usePathname();
 
   return (

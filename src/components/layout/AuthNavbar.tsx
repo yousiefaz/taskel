@@ -34,7 +34,7 @@ export default function AuthNavbar() {
 
   return (
     <header
-      className={`bg-gray-200 transition-shadow duration-200 ${
+      className={`bg-white transition-shadow duration-200 ${
         isScrolled ? "border-b border-black/10" : "border-b border-transparent"
       }`}
     >
