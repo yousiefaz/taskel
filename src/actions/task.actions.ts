@@ -152,41 +152,35 @@ export async function toggleTaskStatus(id: string): Promise<ActionResult> {
 
     const validId = idResult.data;
 
-    const result = await prisma.$transaction(async (tx) => {
-      const task = await tx.task.findFirst({
+    const completedResult = await prisma.task.updateMany({
+      where: {
+        id: validId,
+        userId: user.id,
+        status: TaskStatus.ACTIVE,
+      },
+      data: {
+        status: TaskStatus.COMPLETED,
+      },
+    });
+
+    if (completedResult.count === 0) {
+      const activeResult = await prisma.task.updateMany({
         where: {
           id: validId,
           userId: user.id,
-        },
-        select: {
-          status: true,
-        },
-      });
-
-      if (!task) {
-        return false;
-      }
-
-      await tx.task.update({
-        where: {
-          id: validId,
+          status: TaskStatus.COMPLETED,
         },
         data: {
-          status:
-            task.status === TaskStatus.ACTIVE
-              ? TaskStatus.COMPLETED
-              : TaskStatus.ACTIVE,
+          status: TaskStatus.ACTIVE,
         },
       });
 
-      return true;
-    });
-
-    if (!result) {
-      return {
-        success: false,
-        code: "TASK_NOT_FOUND",
-      };
+      if (activeResult.count === 0) {
+        return {
+          success: false,
+          code: "TASK_NOT_FOUND",
+        };
+      }
     }
 
     revalidatePath(TASKS_PATH, "page");
