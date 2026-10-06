@@ -54,7 +54,11 @@ export default function SignInForm() {
       const result = await signIn(data);
 
       if (!result.success) {
-        setServerError(result.message ?? commonT("somethingWentWrong"));
+        setServerError(
+          result.code === "INVALID_CREDENTIALS"
+            ? "invalidCredentials"
+            : "unknownError",
+        );
 
         return;
       }
@@ -62,7 +66,7 @@ export default function SignInForm() {
       router.push("/tasks");
       router.refresh();
     } catch {
-      setServerError(commonT("somethingWentWrong"));
+      setServerError("unknownError");
     }
   }
 
