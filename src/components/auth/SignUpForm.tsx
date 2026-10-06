@@ -65,14 +65,18 @@ export default function SignUpForm() {
       const result = await signUp(data);
 
       if (!result.success) {
-        setServerError(result.message ?? commonT("somethingWentWrong"));
+        setServerError(
+          result.code === "EMAIL_ALREADY_EXISTS"
+            ? "emailAlreadyExists"
+            : "unknownError",
+        );
 
         return;
       }
 
       router.push("/sign-in");
     } catch {
-      setServerError(commonT("somethingWentWrong"));
+      setServerError("unknownError");
     }
   }
 
